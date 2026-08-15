@@ -62,7 +62,7 @@ Critical rules:
           }
         ],
         generationConfig: {
-          maxOutputTokens: 800,
+          maxOutputTokens: 2048,
           temperature: 0.9
         }
       })
