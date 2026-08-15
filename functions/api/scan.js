@@ -30,7 +30,7 @@ export async function onRequestPost(context) {
 
     return json({ reading });
   } catch (err) {
-    return json({ error: 'server_error', message: String(err) }, 500);
+    return json({ error: 'server_error', message: String(err && err.message ? err.message : err) }, 500);
   }
 }
 
@@ -47,7 +47,7 @@ Critical rules:
 - Output only the reading text, no preamble, no markdown headers, no asterisks.`;
 
   const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
