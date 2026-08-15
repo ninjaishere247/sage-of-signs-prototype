@@ -41,6 +41,14 @@
   }
   .upload-example svg { flex-shrink: 0; width: 40px; height: 40px; }
 
+  input[type=text] {
+    width: 100%; background: rgba(0,0,0,0.2); border: 1px solid rgba(237,227,208,0.18);
+    color: var(--parchment); padding: 13px 16px; border-radius: 4px; font-family: 'Inter', sans-serif;
+    font-size: 0.95rem; margin-bottom: 18px;
+  }
+  input[type=text]::placeholder { color: var(--lavender); opacity: 0.7; }
+  input[type=text]:focus { outline: none; border-color: var(--gold); }
+
   input[type=file] { display: none; }
 
   .cta {
@@ -89,6 +97,8 @@
       <span>Flat hand · palm up · natural light · no shadows</span>
     </div>
 
+    <input type="text" id="name-input" placeholder="Your first name (optional)" maxlength="40" />
+
     <input type="file" id="file-input" accept="image/*" capture="environment" />
     <div id="upload-trigger">
       <button type="button" class="cta" id="choose-photo-btn">Choose or Take a Photo</button>
@@ -114,6 +124,7 @@
 <script>
 (function () {
   const fileInput = document.getElementById('file-input');
+  const nameInput = document.getElementById('name-input');
   const chooseBtn = document.getElementById('choose-photo-btn');
   const previewWrap = document.getElementById('preview-wrap');
   const previewImg = document.getElementById('preview-img');
@@ -167,6 +178,7 @@
     try {
       const formData = new FormData();
       formData.append('photo', selectedFile);
+      if (nameInput.value.trim()) formData.append('name', nameInput.value.trim());
 
       const res = await fetch('/api/scan', { method: 'POST', body: formData });
       const data = await res.json();
