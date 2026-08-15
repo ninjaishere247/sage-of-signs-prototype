@@ -124,6 +124,7 @@
   const errorMsg = document.getElementById('error-msg');
 
   let selectedFile = null;
+  let selectedFileDataUrl = null;
 
   chooseBtn.addEventListener('click', () => fileInput.click());
 
@@ -148,6 +149,12 @@
     previewWrap.style.display = 'flex';
     fileStatus.innerHTML = '<strong>Photo ready.</strong><br/>' + (file.name || 'palm-photo');
     scanWrap.style.display = 'block';
+
+    // Also read as a data URL (portable across pages, unlike blob: URLs which
+    // are invalidated on navigation) so the result page can show the photo.
+    const reader = new FileReader();
+    reader.onload = () => { selectedFileDataUrl = reader.result; };
+    reader.readAsDataURL(file);
   });
 
   scanBtn.addEventListener('click', async () => {
@@ -167,7 +174,9 @@
 
       // Stash the reading in sessionStorage and go to the result page
       sessionStorage.setItem('sage_reading', data.reading || '');
-      sessionStorage.setItem('sage_photo_preview', previewImg.src);
+      if (selectedFileDataUrl) {
+        sessionStorage.setItem('sage_photo_preview', selectedFileDataUrl);
+      }
       window.location.href = '/result.html';
     } catch (err) {
       const detail = err && err.message ? String(err.message).slice(0, 300) : '';
