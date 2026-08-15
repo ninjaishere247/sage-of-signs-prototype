@@ -47,7 +47,7 @@ Critical rules:
 - Output only the reading text, no preamble, no markdown headers, no asterisks.`;
 
   const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -62,7 +62,7 @@ Critical rules:
           }
         ],
         generationConfig: {
-          maxOutputTokens: 2048,
+          maxOutputTokens: 3072,
           temperature: 0.9
         }
       })
@@ -71,6 +71,9 @@ Critical rules:
 
   if (!res.ok) {
     const errText = await res.text();
+    if (res.status === 429) {
+      throw new Error('Gemini is rate-limited right now (free tier caps requests per minute). Please wait about 20 seconds and try again.');
+    }
     throw new Error('gemini_failed: ' + errText);
   }
 
