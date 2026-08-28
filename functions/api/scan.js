@@ -1,10 +1,10 @@
 // POST /api/scan
-// Prototype version — no payment, no email, no KV storage.
-// Sends the uploaded photo straight to Gemini (free tier) and returns
-// the full reading text directly to the browser.
+// Final product version — calls Claude (Haiku) instead of Gemini.
+// Returns: opening observation, four line sections (with a cross-reference
+// line inside the heart section), and a synthesis section naming a tension
+// across the four lines. No payment/email here — that's wired in later.
 //
-// Requires: env.GEMINI_API_KEY
-// Get a free key with no credit card at https://aistudio.google.com
+// Requires: env.ANTHROPIC_API_KEY
 
 export async function onRequestPost(context) {
   const { request, env } = context;
@@ -28,8 +28,7 @@ export async function onRequestPost(context) {
     const base64 = arrayBufferToBase64(arrayBuffer);
     const mediaType = photo.type || 'image/jpeg';
 
-    const reading = await generateReading(env.GEMINI_API_KEY, base64, mediaType, name);
-
+    const reading = await generateReading(env.ANTHROPIC_API_KEY, base64, mediaType, name);
     return json({ reading });
   } catch (err) {
     return json({ error: 'server_error', message: String(err && err.message ? err.message : err) }, 500);
@@ -51,66 +50,76 @@ Then write exactly four sections, each 60-100 words, in this EXACT format with t
 
 ###HEART###
 (heart line)
-
 ###HEAD###
 (head line)
-
 ###LIFE###
 (life line)
-
 ###FATE###
 (fate line)
 
 For EACH section:
-1. Start by plainly describing what you observe about that specific line — its length, depth, curve, or starting point (e.g. "Your heart line runs short and straight" or "There's a break partway through your head line"). Commit to a specific-sounding observation, don't hedge.
-2. Then interpret it — but include real texture, not just praise. At least one section should note a genuine trade-off or tension (e.g. "this makes you decisive, but it can also mean you cut people off before hearing them out"), not pure flattery.
-3. Use plain, direct language. NO stacked adjective lists ("steadfast, noble, and deep"). NO abstract flourishes ("sacred purpose," "generous clarity," "profound idealist"). Write like you're actually talking to someone, not composing a poem.
-4. Do not name astrological mounts (Jupiter, Saturn, Venus, Moon, etc.) more than once total across the whole reading, if at all — describe the hand in plain physical terms instead.
-5. CRITICAL: avoid "Barnum statements" — claims vague enough to be true of almost any reader ("you value genuine connection," "you think before you act," "you care what others think of you"). Every claim should be specific enough that it could plausibly be WRONG for someone else's hand. If a sentence you're about to write could apply to nearly anyone, rewrite it to be more specific and falsifiable.
-6. Vary sentence structure and opening phrasing across the four sections — do not start every section the same way.
+1. Start by plainly describing what you observe about that specific line — its length, depth, curve, or starting point. Commit to a specific-sounding observation, don't hedge.
+2. Then interpret it — but include real texture, not just praise. At least one section (across the four) should note a genuine trade-off or tension, not pure flattery.
+3. Use plain, direct language. NO stacked adjective lists. NO abstract flourishes. Write like you're actually talking to someone.
+4. Do not name astrological mounts (Jupiter, Saturn, Venus, Moon, etc.) more than once total across the whole reading, if at all.
+5. CRITICAL: avoid "Barnum statements" — claims vague enough to be true of almost any reader. Every claim should be specific enough that it could plausibly be WRONG for someone else's hand.
+6. Vary sentence structure and opening phrasing across the four sections.
 
-Then a final unmarked closing paragraph, 40-60 words: one direct, specific, open-ended question the reader can actually sit with today, grounded in something from the reading — not a generic uplifting close.
+Inside the HEART section specifically, include one sentence that plainly points toward something you'll pick up again in the HEAD, LIFE, or FATE section — a real, specific connection between the two lines (e.g. "this pairs with something in how your head line starts, which I'll come back to"). This should read as a genuine observation, not a teaser or sales line.
+
+After the four sections, write a fifth part marked:
+###SYNTHESIS###
+(60-90 words)
+
+This section looks across all four lines together and names one specific, real tension or contradiction between two of them — something none of the four sections could say on its own. It should feel like the reading arriving at something, not summarizing what was already said. End this section on the open question this tension raises, without resolving it.
 
 Critical rules:
 - Never give medical, legal, financial, or psychological advice, and never reference specific diseases, medications, or health diagnoses.
 - Never make concrete predictions about specific real-world future events (exact dates, named people, financial outcomes, legal outcomes).
 - Write directly to the reader as "you."
-- Use the EXACT ###HEART###, ###HEAD###, ###LIFE###, ###FATE### markers exactly as shown, each on their own line.
+- Use the EXACT ###HEART###, ###HEAD###, ###LIFE###, ###FATE###, ###SYNTHESIS### markers exactly as shown, each on their own line.
 - No markdown headers, no asterisks, no other formatting.`;
 
-  const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [
-          {
-            role: 'user',
-            parts: [
-              { text: systemPrompt + '\n\nWrite my full palm reading based on the attached photo.' },
-              { inline_data: { mime_type: mediaType, data: base64 } }
-            ]
-          }
-        ],
-        generationConfig: {
-          maxOutputTokens: 3072,
-          temperature: 0.9
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01'
+    },
+    body: JSON.stringify({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 2000,
+      temperature: 0.9,
+      messages: [
+        {
+          role: 'user',
+          content: [
+            { type: 'text', text: systemPrompt + '\n\nWrite my full palm reading based on the attached photo.' },
+            {
+              type: 'image',
+              source: {
+                type: 'base64',
+                media_type: mediaType,
+                data: base64
+              }
+            }
+          ]
         }
-      })
-    }
-  );
+      ]
+    })
+  });
 
   if (!res.ok) {
     const errText = await res.text();
     if (res.status === 429) {
-      throw new Error('Gemini is rate-limited right now (free tier caps requests per minute). Please wait about 20 seconds and try again.');
+      throw new Error('The reader is in high demand right now. Please wait about 20 seconds and try again.');
     }
-    throw new Error('gemini_failed: ' + errText);
+    throw new Error('claude_failed: ' + errText);
   }
 
   const data = await res.json();
-  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+  const text = data?.content?.find(block => block.type === 'text')?.text;
   return text ? text.trim() : 'Your reading could not be generated right now. Please try again.';
 }
 
