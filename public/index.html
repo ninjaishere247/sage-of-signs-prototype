@@ -211,6 +211,9 @@ if (!res.ok) throw new Error(data && data.message ? data.message : 'scan_failed'
 
 // Stash the reading in sessionStorage and go to the result page
 sessionStorage.setItem('sage_reading', data.reading || '');
+if (nameInput.value.trim()) {
+sessionStorage.setItem('sage_name', nameInput.value.trim());
+}
 if (selectedFileDataUrl) {
 sessionStorage.setItem('sage_photo_preview', selectedFileDataUrl);
 }
