@@ -303,11 +303,13 @@ h1 { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-
     const truncatedSynthesis = truncateForLock(sectionMap.SYNTHESIS);
     synthesisText.textContent = truncatedSynthesis;
 
-    // Use the first clause of the synthesis as the paywall headline, so the pitch
-    // is specific to this reading rather than generic.
-    const firstClause = (sectionMap.SYNTHESIS.match(/[^.!?]+[.!?]/) || [''])[0].trim();
-    if (firstClause) {
-      paywallHeadline.textContent = firstClause;
+    // Paywall headline: a short, genuine fragment of the synthesis, short enough
+    // that it teases without disclosing the actual tension. Deliberately shorter
+    // than the locked synthesis card preview above, so nothing is duplicated.
+    const words = sectionMap.SYNTHESIS.trim().split(/\s+/);
+    const fragment = words.slice(0, 9).join(' ');
+    if (fragment) {
+      paywallHeadline.textContent = fragment + '…';
     }
   }
 
