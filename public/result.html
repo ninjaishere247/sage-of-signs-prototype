@@ -144,6 +144,39 @@ h1 { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-
 .paywall-price { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--lavender); margin-top: 12px; }
 .paywall-trust { font-size: 0.75rem; color: var(--lavender); opacity: 0.75; margin-top: 14px; }
 
+/* Upsell 1 */
+.upsell1-wrap {
+  margin-top: 30px; padding: 30px 26px; background: linear-gradient(160deg, rgba(181,98,46,0.08), rgba(36,24,50,0.4));
+  border: 1px solid rgba(181,98,46,0.3); border-radius: 10px;
+}
+.upsell1-intro { text-align: center; margin-bottom: 22px; }
+.upsell1-lede {
+  font-family: 'Fraunces', serif; font-style: italic; font-size: 1.05rem; line-height: 1.6;
+  color: var(--parchment); margin: 10px 0 0;
+}
+.topic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+@media (max-width: 480px) { .topic-grid { grid-template-columns: 1fr; } }
+.topic-btn {
+  background: rgba(0,0,0,0.2); border: 1px solid rgba(237,227,208,0.2); color: var(--parchment);
+  font-family: 'Inter', sans-serif; font-size: 0.9rem; padding: 14px 12px; border-radius: 6px;
+  cursor: pointer; text-align: center;
+}
+.topic-btn:hover { border-color: var(--copper); }
+.topic-btn.selected { background: rgba(181,98,46,0.25); border-color: var(--copper); }
+.upsell1-passage {
+  font-family: 'Fraunces', serif; font-size: 1.05rem; line-height: 1.75; color: var(--parchment);
+  margin-bottom: 16px;
+}
+.upsell1-onething {
+  margin-top: 20px; padding: 18px 20px; background: rgba(0,0,0,0.2);
+  border-left: 2px solid var(--copper); border-radius: 4px;
+}
+.upsell1-onething-label {
+  font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--copper); display: block; margin-bottom: 8px;
+}
+.upsell1-loading { text-align: center; color: var(--lavender); font-family: 'Space Mono', monospace; font-size: 0.8rem; padding: 20px 0; }
+
 .again-link {
   display: block; text-align: center; color: var(--lavender); text-decoration: none;
   font-size: 0.9rem; margin-top: 34px;
@@ -198,8 +231,23 @@ h1 { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-
     </ul>
     <br>
     <button class="paywall-btn" id="paywall-btn" type="button">Unlock your full reading, $9</button>
-    <div class="paywall-price">A reading like this from a practitioner runs $65–150 and a week's wait.</div>
+    <div class="paywall-price">A reading like this from a practitioner runs $65 to $150 and a week's wait.</div>
     <div class="paywall-trust">Written fresh from your photo. Not a template.</div>
+  </div>
+
+  <div class="upsell1-wrap" id="upsell1-wrap" style="display:none;">
+    <div class="upsell1-intro">
+      <span class="synthesis-label">Your Next Chapter</span>
+      <p class="upsell1-lede">Your reading named a tension. This goes further into it, and leaves you with one thing to sit with.</p>
+    </div>
+    <div class="topic-grid" id="topic-grid">
+      <button class="topic-btn" data-topic="relationship" type="button">A relationship</button>
+      <button class="topic-btn" data-topic="career" type="button">Work or a decision</button>
+      <button class="topic-btn" data-topic="stuck" type="button">Feeling stuck</button>
+      <button class="topic-btn" data-topic="fresh_start" type="button">A fresh start</button>
+    </div>
+    <button class="paywall-btn" id="upsell1-btn" type="button" style="display:none;">Get Your Next Chapter, $9</button>
+    <div id="upsell1-result" style="display:none;"></div>
   </div>
 
   <a href="/" class="again-link">← Try another reading</a>
@@ -332,10 +380,115 @@ h1 { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-
 
   if (paywallBtn) {
     paywallBtn.addEventListener('click', function () {
-      // Stripe not wired yet — placeholder until checkout keys arrive.
-      paywallBtn.textContent = 'Checkout coming soon';
-      paywallBtn.disabled = true;
+      // TEMPORARY: Stripe isn't wired yet. This simulates a completed purchase
+      // so the rest of the product (full reading + Upsell 1) can be built and
+      // tested end to end. Replace this handler with real Stripe Checkout once
+      // the client's keys arrive; the actual unlock should then happen only
+      // after a confirmed webhook, not a client-side click.
+      unlockFullReading();
     });
+  }
+
+  function unlockFullReading() {
+    // Reveal the full, untruncated text on every card.
+    const cards = sectionsEl.querySelectorAll('.section-card.locked');
+    cards.forEach(function (card) {
+      // Find which line this card is by its label, then swap in full text.
+      const label = card.querySelector('.section-label').textContent;
+      const key = ORDER.find(function (k) { return LABELS[k] === label; });
+      if (key && sectionMap[key]) {
+        card.classList.remove('locked');
+        card.querySelector('.section-text').textContent = sectionMap[key];
+        const lockRow = card.querySelector('.lock-row');
+        if (lockRow) lockRow.remove();
+      }
+    });
+
+    if (sectionMap.SYNTHESIS) {
+      synthesisCard.classList.remove('synthesis-locked');
+      synthesisText.textContent = sectionMap.SYNTHESIS;
+      const lockRow = synthesisCard.querySelector('.lock-row');
+      if (lockRow) lockRow.remove();
+    }
+
+    // Update progress indicator to show all four read.
+    document.querySelectorAll('.progress-dot').forEach(function (dot) {
+      dot.classList.add('filled');
+    });
+    const progressLabel = document.querySelector('.progress-label');
+    if (progressLabel) progressLabel.textContent = '4 of 4 read';
+
+    paywallEl.style.display = 'none';
+    document.getElementById('upsell1-wrap').style.display = 'block';
+    document.getElementById('upsell1-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Upsell 1: topic selection, then generate on demand.
+  const topicGrid = document.getElementById('topic-grid');
+  const upsell1Btn = document.getElementById('upsell1-btn');
+  const upsell1Result = document.getElementById('upsell1-result');
+  let selectedTopic = null;
+
+  if (topicGrid) {
+    topicGrid.addEventListener('click', function (e) {
+      const btn = e.target.closest('.topic-btn');
+      if (!btn) return;
+      topicGrid.querySelectorAll('.topic-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      selectedTopic = btn.getAttribute('data-topic');
+      upsell1Btn.style.display = 'block';
+    });
+  }
+
+  if (upsell1Btn) {
+    upsell1Btn.addEventListener('click', async function () {
+      if (!selectedTopic) return;
+      upsell1Btn.disabled = true;
+      upsell1Btn.textContent = 'Writing your next chapter…';
+      upsell1Result.style.display = 'block';
+      upsell1Result.innerHTML = '<div class="upsell1-loading">This can take a few seconds…</div>';
+
+      try {
+        const storedName = sessionStorage.getItem('sage_name') || '';
+        const res = await fetch('/api/upsell1', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ readingText: reading, topic: selectedTopic, name: storedName })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.upsell) throw new Error(data && data.message ? data.message : 'upsell_failed');
+
+        renderUpsell1(data.upsell);
+        upsell1Btn.style.display = 'none';
+        topicGrid.style.display = 'none';
+      } catch (err) {
+        upsell1Result.innerHTML = '<div class="upsell1-loading">Something went wrong. Please try again.</div>';
+        upsell1Btn.disabled = false;
+        upsell1Btn.textContent = 'Get Your Next Chapter, $9';
+      }
+    });
+  }
+
+  function renderUpsell1(text) {
+    const markerRegex = /###(OPENING|DEEPER|ONETHING)###/g;
+    const parts = text.split(markerRegex);
+    const map = {};
+    for (let i = 1; i < parts.length; i += 2) {
+      map[parts[i]] = (parts[i + 1] || '').trim();
+    }
+
+    let html = '';
+    if (map.OPENING) html += '<p class="upsell1-passage">' + escapeHtml(map.OPENING) + '</p>';
+    if (map.DEEPER) html += '<p class="upsell1-passage">' + escapeHtml(map.DEEPER) + '</p>';
+    if (map.ONETHING) {
+      html += '<div class="upsell1-onething"><span class="upsell1-onething-label">One thing</span>' +
+        escapeHtml(map.ONETHING) + '</div>';
+    }
+    if (!map.OPENING && !map.DEEPER && !map.ONETHING) {
+      // Fallback if markers weren't found for any reason.
+      html = '<p class="upsell1-passage">' + escapeHtml(text) + '</p>';
+    }
+    upsell1Result.innerHTML = html;
   }
 })();
 </script>
