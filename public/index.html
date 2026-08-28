@@ -3,203 +3,228 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Sage of Signs — Your Palm, Read</title>
+<title>Sage of Signs, Your Palm, Read</title>
 <meta name="description" content="Upload a photo of your palm and receive a personal reading of your heart, head, life, and fate lines." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --void: #12142B; --plum: #241832; --parchment: #EDE3D0;
-    --gold: #C9A227; --gold-bright: #E0BC4A; --copper: #B5622E; --lavender: #8C86A3;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; background: var(--void);
-    background-image: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,162,39,0.10), transparent);
-    color: var(--parchment); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased;
-  }
-  .wrap { max-width: 640px; margin: 0 auto; padding: 0 24px; }
-  .nav { display: flex; align-items: center; justify-content: center; padding: 28px 24px 0; }
-  .wordmark { font-family: 'Fraunces', serif; font-size: 1.05rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; }
-  .wordmark span { color: var(--gold); }
-  .hero { text-align: center; padding: 56px 24px 20px; }
-  .eyebrow { font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 22px; opacity: 0.85; }
-  h1 { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-size: clamp(2rem, 6vw, 3rem); line-height: 1.15; margin: 0 0 20px; max-width: 16ch; margin-left: auto; margin-right: auto; }
-  .sub { font-size: 1.02rem; line-height: 1.65; color: var(--lavender); max-width: 44ch; margin: 0 auto 40px; }
-
-  .flow-card {
-    background: var(--plum); border: 1px solid rgba(201,162,39,0.15); border-radius: 8px;
-    padding: 36px 30px; margin: 0 0 60px;
-  }
-  @media (max-width: 560px) { .flow-card { padding: 26px 20px; } }
-
-  .upload-example {
-    display: flex; gap: 16px; align-items: center; background: rgba(0,0,0,0.18);
-    border: 1px dashed rgba(201,162,39,0.3); border-radius: 6px; padding: 14px 16px;
-    margin-bottom: 22px; font-size: 0.85rem; color: var(--lavender);
-  }
-  .upload-example svg { flex-shrink: 0; width: 40px; height: 40px; }
-
-  input[type=text] {
-    width: 100%; background: rgba(0,0,0,0.2); border: 1px solid rgba(237,227,208,0.18);
-    color: var(--parchment); padding: 13px 16px; border-radius: 4px; font-family: 'Inter', sans-serif;
-    font-size: 0.95rem; margin-bottom: 18px;
-  }
-  input[type=text]::placeholder { color: var(--lavender); opacity: 0.7; }
-  input[type=text]:focus { outline: none; border-color: var(--gold); }
-
-  input[type=file] { display: none; }
-
-  .cta {
-    display: inline-block; width: 100%; text-align: center; background: var(--gold); color: var(--void);
-    font-weight: 600; font-size: 1rem; padding: 15px; border-radius: 4px; border: none;
-    cursor: pointer; transition: background 0.15s ease, transform 0.15s ease;
-  }
-  .cta:hover { background: var(--gold-bright); transform: translateY(-1px); }
-  .cta:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-  .preview-wrap { display: flex; gap: 16px; align-items: center; margin-bottom: 18px; display: none; }
-  #preview-img { width: 84px; height: 84px; object-fit: cover; border-radius: 6px; border: 1px solid rgba(201,162,39,0.3); }
-  .file-status { font-size: 0.85rem; color: var(--lavender); }
-  .file-status strong { color: var(--parchment); }
-
-  .error-msg { color: var(--copper); font-size: 0.85rem; margin-top: 12px; display: none; }
-  .error-msg.show { display: block; }
-
-  .spinner {
-    display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(18,20,43,0.3);
-    border-top-color: var(--void); border-radius: 50%; animation: spin 0.7s linear infinite;
-    margin-right: 8px; vertical-align: -2px;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  footer { padding: 40px 24px 50px; text-align: center; }
-  .disclaimer { font-size: 0.78rem; color: var(--lavender); opacity: 0.75; max-width: 46ch; margin: 0 auto; line-height: 1.6; }
+:root {
+--void: #12142B; --plum: #241832; --parchment: #EDE3D0;
+--gold: #C9A227; --gold-bright: #E0BC4A; --copper: #B5622E; --lavender: #8C86A3;
+}
+* { box-sizing: border-box; }
+body {
+margin: 0; background: var(--void);
+background-image: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,162,39,0.10), transparent);
+color: var(--parchment); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 640px; margin: 0 auto; padding: 0 24px; }
+.nav { display: flex; align-items: center; justify-content: center; padding: 28px 24px 0; }
+.wordmark { font-family: 'Fraunces', serif; font-size: 1.05rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; }
+.wordmark span { color: var(--gold); }
+.hero { text-align: center; padding: 56px 24px 20px; }
+.eyebrow { font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 22px; opacity: 0.85; }
+h1 { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-size: clamp(2rem, 6vw, 3rem); line-height: 1.15; margin: 0 0 20px; max-width: 16ch; margin-left: auto; margin-right: auto; }
+.sub { font-size: 1.02rem; line-height: 1.65; color: var(--lavender); max-width: 44ch; margin: 0 auto 40px; }
+.flow-card {
+background: var(--plum); border: 1px solid rgba(201,162,39,0.15); border-radius: 8px;
+padding: 36px 30px; margin: 0 0 60px;
+}
+@media (max-width: 560px) { .flow-card { padding: 26px 20px; } }
+.upload-example {
+display: flex; gap: 16px; align-items: center; background: rgba(0,0,0,0.18);
+border: 1px dashed rgba(201,162,39,0.3); border-radius: 6px; padding: 14px 16px;
+margin-bottom: 22px; font-size: 0.85rem; color: var(--lavender);
+}
+.upload-example svg { flex-shrink: 0; width: 40px; height: 40px; }
+input[type=text] {
+width: 100%; background: rgba(0,0,0,0.2); border: 1px solid rgba(237,227,208,0.18);
+color: var(--parchment); padding: 13px 16px; border-radius: 4px; font-family: 'Inter', sans-serif;
+font-size: 0.95rem; margin-bottom: 18px;
+}
+input[type=text]::placeholder { color: var(--lavender); opacity: 0.7; }
+input[type=text]:focus { outline: none; border-color: var(--gold); }
+input[type=file] { display: none; }
+.cta {
+display: inline-block; width: 100%; text-align: center; background: var(--gold); color: var(--void);
+font-weight: 600; font-size: 1rem; padding: 15px; border-radius: 4px; border: none;
+cursor: pointer; transition: background 0.15s ease, transform 0.15s ease;
+}
+.cta:hover { background: var(--gold-bright); transform: translateY(-1px); }
+.cta:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.preview-wrap { display: flex; gap: 16px; align-items: center; margin-bottom: 18px; display: none; }
+#preview-img { width: 84px; height: 84px; object-fit: cover; border-radius: 6px; border: 1px solid rgba(201,162,39,0.3); }
+.file-status { font-size: 0.85rem; color: var(--lavender); }
+.file-status strong { color: var(--parchment); }
+.error-msg { color: var(--copper); font-size: 0.85rem; margin-top: 12px; display: none; }
+.error-msg.show { display: block; }
+.retry-msg { color: var(--gold); font-size: 0.88rem; margin-top: 12px; display: none; line-height: 1.55; font-style: italic; font-family: 'Fraunces', serif; }
+.retry-msg.show { display: block; }
+.limit-msg { color: var(--lavender); font-size: 0.85rem; margin-top: 12px; display: none; line-height: 1.55; }
+.limit-msg.show { display: block; }
+.spinner {
+display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(18,20,43,0.3);
+border-top-color: var(--void); border-radius: 50%; animation: spin 0.7s linear infinite;
+margin-right: 8px; vertical-align: -2px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+footer { padding: 40px 24px 50px; text-align: center; }
+.disclaimer { font-size: 0.78rem; color: var(--lavender); opacity: 0.75; max-width: 46ch; margin: 0 auto; line-height: 1.6; }
 </style>
 </head>
 <body>
-
 <nav class="nav"><div class="wordmark">Sage <span>of</span> Signs</div></nav>
 
 <header class="hero">
-  <div class="wrap">
-    <div class="eyebrow">Palmistry · Prototype</div>
-    <h1>Your Hand Has Been Keeping a Secret.</h1>
-    <p class="sub">Upload a clear photo of your palm and receive a personal reading of your heart, head, life, and fate lines.</p>
-  </div>
+<div class="wrap">
+<div class="eyebrow">Palmistry · Prototype</div>
+<h1>Your Hand Has Been Keeping a Secret.</h1>
+<p class="sub">Upload a clear photo of your palm and receive a personal reading of your heart, head, life, and fate lines.</p>
+</div>
 </header>
 
 <div class="wrap">
-  <div class="flow-card">
-    <div class="upload-example">
-      <svg viewBox="0 0 48 48" fill="none"><rect x="4" y="4" width="40" height="40" rx="4" stroke="#C9A227" stroke-width="1.5"/><path d="M14 34 C10 28 10 20 12 15 C13 10 20 9 21 16 L21 12 C21 8 27 8 27 12 L27 17 C27 13 33 13 33 18 C33 24 31 30 26 34 Z" stroke="#C9A227" stroke-width="1.3" fill="none"/></svg>
-      <span>Flat hand · palm up · natural light · no shadows</span>
-    </div>
+<div class="flow-card">
+<div class="upload-example">
+<svg viewBox="0 0 48 48" fill="none"><rect x="4" y="4" width="40" height="40" rx="4" stroke="#C9A227" stroke-width="1.5"/><path d="M14 34 C10 28 10 20 12 15 C13 10 20 9 21 16 L21 12 C21 8 27 8 27 12 L27 17 C27 13 33 13 33 18 C33 24 31 30 26 34 Z" stroke="#C9A227" stroke-width="1.3" fill="none"/></svg>
+<span>Flat hand · palm up · natural light · no shadows</span>
+</div>
 
-    <input type="text" id="name-input" placeholder="Your first name (optional)" maxlength="40" />
+<input type="text" id="name-input" placeholder="Your first name (optional)" maxlength="40" />
+<input type="file" id="file-input" accept="image/*" capture="environment" />
 
-    <input type="file" id="file-input" accept="image/*" capture="environment" />
-    <div id="upload-trigger">
-      <button type="button" class="cta" id="choose-photo-btn">Choose or Take a Photo</button>
-    </div>
+<div id="upload-trigger">
+<button type="button" class="cta" id="choose-photo-btn">Choose or Take a Photo</button>
+</div>
 
-    <div class="preview-wrap" id="preview-wrap">
-      <img id="preview-img" alt="Your uploaded palm photo" />
-      <div class="file-status" id="file-status"></div>
-    </div>
+<div class="preview-wrap" id="preview-wrap">
+<img id="preview-img" alt="Your uploaded palm photo" />
+<div class="file-status" id="file-status"></div>
+</div>
 
-    <div id="scan-wrap" style="display:none; margin-top: 18px;">
-      <button type="button" class="cta" id="scan-btn"><span id="scan-btn-label">Reveal My Reading</span></button>
-    </div>
+<div id="scan-wrap" style="display:none; margin-top: 18px;">
+<button type="button" class="cta" id="scan-btn"><span id="scan-btn-label">Reveal My Reading</span></button>
+</div>
 
-    <p class="error-msg" id="error-msg"></p>
-  </div>
+<p class="error-msg" id="error-msg"></p>
+<p class="retry-msg" id="retry-msg"></p>
+<p class="limit-msg" id="limit-msg"></p>
+</div>
 </div>
 
 <footer>
-  <p class="disclaimer">Sage of Signs is a prototype provided for entertainment purposes only, and is not a substitute for professional advice.</p>
+<p class="disclaimer">Sage of Signs is a prototype provided for entertainment purposes only, and is not a substitute for professional advice.</p>
 </footer>
 
 <script>
 (function () {
-  const fileInput = document.getElementById('file-input');
-  const nameInput = document.getElementById('name-input');
-  const chooseBtn = document.getElementById('choose-photo-btn');
-  const previewWrap = document.getElementById('preview-wrap');
-  const previewImg = document.getElementById('preview-img');
-  const fileStatus = document.getElementById('file-status');
-  const scanWrap = document.getElementById('scan-wrap');
-  const scanBtn = document.getElementById('scan-btn');
-  const scanBtnLabel = document.getElementById('scan-btn-label');
-  const errorMsg = document.getElementById('error-msg');
+const fileInput = document.getElementById('file-input');
+const nameInput = document.getElementById('name-input');
+const chooseBtn = document.getElementById('choose-photo-btn');
+const previewWrap = document.getElementById('preview-wrap');
+const previewImg = document.getElementById('preview-img');
+const fileStatus = document.getElementById('file-status');
+const scanWrap = document.getElementById('scan-wrap');
+const scanBtn = document.getElementById('scan-btn');
+const scanBtnLabel = document.getElementById('scan-btn-label');
+const errorMsg = document.getElementById('error-msg');
+const retryMsg = document.getElementById('retry-msg');
+const limitMsg = document.getElementById('limit-msg');
 
-  let selectedFile = null;
-  let selectedFileDataUrl = null;
+let selectedFile = null;
+let selectedFileDataUrl = null;
 
-  chooseBtn.addEventListener('click', () => fileInput.click());
+function clearMessages() {
+errorMsg.classList.remove('show');
+retryMsg.classList.remove('show');
+limitMsg.classList.remove('show');
+}
 
-  fileInput.addEventListener('change', () => {
-    errorMsg.classList.remove('show');
-    const file = fileInput.files[0];
-    if (!file) return;
+chooseBtn.addEventListener('click', () => fileInput.click());
 
-    if (!file.type.startsWith('image/')) {
-      errorMsg.textContent = 'Please choose an image file.';
-      errorMsg.classList.add('show');
-      return;
-    }
-    if (file.size > 12 * 1024 * 1024) {
-      errorMsg.textContent = 'That image is too large. Please choose a photo under 12MB.';
-      errorMsg.classList.add('show');
-      return;
-    }
+fileInput.addEventListener('change', () => {
+clearMessages();
+const file = fileInput.files[0];
+if (!file) return;
 
-    selectedFile = file;
-    previewImg.src = URL.createObjectURL(file);
-    previewWrap.style.display = 'flex';
-    fileStatus.innerHTML = '<strong>Photo ready.</strong><br/>' + (file.name || 'palm-photo');
-    scanWrap.style.display = 'block';
+if (!file.type.startsWith('image/')) {
+errorMsg.textContent = 'Please choose an image file.';
+errorMsg.classList.add('show');
+return;
+}
+if (file.size > 12 * 1024 * 1024) {
+errorMsg.textContent = 'That image is too large. Please choose a photo under 12MB.';
+errorMsg.classList.add('show');
+return;
+}
 
-    // Also read as a data URL (portable across pages, unlike blob: URLs which
-    // are invalidated on navigation) so the result page can show the photo.
-    const reader = new FileReader();
-    reader.onload = () => { selectedFileDataUrl = reader.result; };
-    reader.readAsDataURL(file);
-  });
+selectedFile = file;
+previewImg.src = URL.createObjectURL(file);
+previewWrap.style.display = 'flex';
+fileStatus.innerHTML = '<strong>Photo ready.</strong><br/>' + (file.name || 'palm-photo');
+scanWrap.style.display = 'block';
 
-  scanBtn.addEventListener('click', async () => {
-    errorMsg.classList.remove('show');
-    if (!selectedFile) return;
+// Also read as a data URL (portable across pages, unlike blob: URLs which
+// are invalidated on navigation) so the result page can show the photo.
+const reader = new FileReader();
+reader.onload = () => { selectedFileDataUrl = reader.result; };
+reader.readAsDataURL(file);
+});
 
-    scanBtn.disabled = true;
-    scanBtnLabel.innerHTML = '<span class="spinner"></span>Reading your palm…';
+scanBtn.addEventListener('click', async () => {
+clearMessages();
+if (!selectedFile) return;
 
-    try {
-      const formData = new FormData();
-      formData.append('photo', selectedFile);
-      if (nameInput.value.trim()) formData.append('name', nameInput.value.trim());
+scanBtn.disabled = true;
+scanBtnLabel.innerHTML = '<span class="spinner"></span>Reading your palm…';
 
-      const res = await fetch('/api/scan', { method: 'POST', body: formData });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data && data.message ? data.message : 'scan_failed');
+try {
+const formData = new FormData();
+formData.append('photo', selectedFile);
+if (nameInput.value.trim()) formData.append('name', nameInput.value.trim());
 
-      // Stash the reading in sessionStorage and go to the result page
-      sessionStorage.setItem('sage_reading', data.reading || '');
-      if (selectedFileDataUrl) {
-        sessionStorage.setItem('sage_photo_preview', selectedFileDataUrl);
-      }
-      window.location.href = '/result.html';
-    } catch (err) {
-      const detail = err && err.message ? String(err.message).slice(0, 300) : '';
-      errorMsg.textContent = 'Something went wrong reading your photo. ' + (detail || 'Please try again.');
-      errorMsg.classList.add('show');
-      scanBtn.disabled = false;
-      scanBtnLabel.textContent = 'Reveal My Reading';
-    }
-  });
+const res = await fetch('/api/scan', { method: 'POST', body: formData });
+const data = await res.json();
+
+// Rate limited: the person has hit the per-hour cap. Explain plainly,
+// let them try again later, no navigation.
+if (res.status === 429 || data.rateLimited) {
+limitMsg.textContent = data.message || "You've reached the limit of free readings for now. Please try again in a bit.";
+limitMsg.classList.add('show');
+scanBtn.disabled = false;
+scanBtnLabel.textContent = 'Reveal My Reading';
+return;
+}
+
+// Photo rejected as unusable: show the in-character retry message right
+// here, let them pick a new photo without losing their place.
+if (data.rejected) {
+retryMsg.textContent = data.message || "I couldn't get a clear read on that photo. Try again in better light, with your fingers spread and your palm facing the camera.";
+retryMsg.classList.add('show');
+scanBtn.disabled = false;
+scanBtnLabel.textContent = 'Reveal My Reading';
+return;
+}
+
+if (!res.ok) throw new Error(data && data.message ? data.message : 'scan_failed');
+
+// Stash the reading in sessionStorage and go to the result page
+sessionStorage.setItem('sage_reading', data.reading || '');
+if (selectedFileDataUrl) {
+sessionStorage.setItem('sage_photo_preview', selectedFileDataUrl);
+}
+window.location.href = '/result.html';
+
+} catch (err) {
+const detail = err && err.message ? String(err.message).slice(0, 300) : '';
+errorMsg.textContent = 'Something went wrong reading your photo. ' + (detail || 'Please try again.');
+errorMsg.classList.add('show');
+scanBtn.disabled = false;
+scanBtnLabel.textContent = 'Reveal My Reading';
+}
+});
 })();
 </script>
-
 </body>
 </html>
