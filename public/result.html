@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Your Reading — Sage of Signs</title>
+<title>Your Reading, Sage of Signs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -172,7 +172,7 @@ h1 { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-
   <div class="keepsake" id="keepsake">
     <div>
       <div class="keepsake-frame"><img id="keepsake-img" alt="Your uploaded palm photo" /></div>
-      <div class="keepsake-caption">— your palm, as read —</div>
+      <div class="keepsake-caption">your palm, as read</div>
       <button class="share-btn" id="share-btn" type="button">Share this reading</button>
     </div>
   </div>
@@ -192,12 +192,12 @@ h1 { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-
     <p class="paywall-headline" id="paywall-headline">You've seen your heart. There's more your hand is holding.</p>
     <ul class="paywall-list">
       <li>Your head, life, and fate lines, read in full</li>
-      <li>The synthesis — what your lines reveal when read together</li>
+      <li>The synthesis, what your lines reveal when read together</li>
       <li>A keepsake PDF, emailed to you</li>
       <li>A permanent link to revisit your reading anytime</li>
     </ul>
     <br>
-    <button class="paywall-btn" id="paywall-btn" type="button">Unlock your full reading — $9</button>
+    <button class="paywall-btn" id="paywall-btn" type="button">Unlock your full reading, $9</button>
     <div class="paywall-price">A reading like this from a practitioner runs $65–150 and a week's wait.</div>
     <div class="paywall-trust">Written fresh from your photo. Not a template.</div>
   </div>
@@ -318,7 +318,7 @@ h1 { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-
   if (shareBtn) {
     shareBtn.addEventListener('click', function () {
       const shareText = sectionMap[FREE_KEY]
-        ? sectionMap[FREE_KEY].split(/[.!?]/)[0] + '. — read at Sage of Signs'
+        ? sectionMap[FREE_KEY].split(/[.!?]/)[0] + '. Read at Sage of Signs'
         : 'My hand has been read at Sage of Signs.';
       if (navigator.share) {
         navigator.share({ title: 'Sage of Signs', text: shareText }).catch(function () {});
