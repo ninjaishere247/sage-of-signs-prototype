@@ -177,6 +177,20 @@ h1 { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-
 }
 .upsell1-loading { text-align: center; color: var(--lavender); font-family: 'Space Mono', monospace; font-size: 0.8rem; padding: 20px 0; }
 
+/* Upsell 2 */
+.upsell2-wrap {
+  margin-top: 22px; padding: 30px 26px; background: linear-gradient(160deg, rgba(201,162,39,0.1), rgba(36,24,50,0.4));
+  border: 1px solid rgba(201,162,39,0.3); border-radius: 10px; text-align: center;
+}
+.upsell2-block { text-align: left; margin-top: 20px; }
+.upsell2-block-label {
+  font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--gold); display: block; margin-bottom: 8px;
+}
+.upsell2-block-text {
+  font-family: 'Fraunces', serif; font-size: 1.02rem; line-height: 1.7; color: var(--parchment); margin: 0 0 20px;
+}
+
 .again-link {
   display: block; text-align: center; color: var(--lavender); text-decoration: none;
   font-size: 0.9rem; margin-top: 34px;
@@ -248,6 +262,18 @@ h1 { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-
     </div>
     <button class="paywall-btn" id="upsell1-btn" type="button" style="display:none;">Get Your Next Chapter, $9</button>
     <div id="upsell1-result" style="display:none;"></div>
+  </div>
+
+  <!-- TEMPORARY PLACEMENT: in the final product this is a follow-up email a
+       few days later, not stacked on the same page as Upsell 1. Shown here
+       inline for now so it can be built and tested before email is wired. -->
+  <div class="upsell2-wrap" id="upsell2-wrap" style="display:none;">
+    <div class="upsell1-intro">
+      <span class="synthesis-label" style="color: var(--gold-bright);">Your Love Blueprint</span>
+      <p class="upsell1-lede">A closer look at how you actually love, no one else's hand required.</p>
+    </div>
+    <button class="paywall-btn" id="upsell2-btn" type="button">Get Your Love Blueprint, $9</button>
+    <div id="upsell2-result" style="display:none;"></div>
   </div>
 
   <a href="/" class="again-link">← Try another reading</a>
@@ -461,6 +487,11 @@ h1 { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-
         renderUpsell1(data.upsell);
         upsell1Btn.style.display = 'none';
         topicGrid.style.display = 'none';
+
+        // TEMPORARY: reveal Upsell 2 inline right after Upsell 1 completes.
+        // In the final product this becomes a follow-up email instead.
+        const upsell2Wrap = document.getElementById('upsell2-wrap');
+        if (upsell2Wrap) upsell2Wrap.style.display = 'block';
       } catch (err) {
         upsell1Result.innerHTML = '<div class="upsell1-loading">Something went wrong. Please try again.</div>';
         upsell1Btn.disabled = false;
@@ -489,6 +520,63 @@ h1 { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-
       html = '<p class="upsell1-passage">' + escapeHtml(text) + '</p>';
     }
     upsell1Result.innerHTML = html;
+  }
+
+  // Upsell 2: self-contained, one button, no topic selection needed.
+  const upsell2Btn = document.getElementById('upsell2-btn');
+  const upsell2Result = document.getElementById('upsell2-result');
+
+  if (upsell2Btn) {
+    upsell2Btn.addEventListener('click', async function () {
+      upsell2Btn.disabled = true;
+      upsell2Btn.textContent = 'Writing your blueprint…';
+      upsell2Result.style.display = 'block';
+      upsell2Result.innerHTML = '<div class="upsell1-loading">This can take a few seconds…</div>';
+
+      try {
+        const storedName = sessionStorage.getItem('sage_name') || '';
+        const res = await fetch('/api/upsell2', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ readingText: reading, name: storedName })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.upsell) throw new Error(data && data.message ? data.message : 'upsell_failed');
+
+        renderUpsell2(data.upsell);
+        upsell2Btn.style.display = 'none';
+      } catch (err) {
+        upsell2Result.innerHTML = '<div class="upsell1-loading">Something went wrong. Please try again.</div>';
+        upsell2Btn.disabled = false;
+        upsell2Btn.textContent = 'Get Your Love Blueprint, $9';
+      }
+    });
+  }
+
+  function renderUpsell2(text) {
+    const labels = {
+      ATTACHMENT: 'How You Attach',
+      PATTERN: 'Your Pattern',
+      GAP: 'The Gap',
+      TIMING: 'Timing'
+    };
+    const markerRegex = /###(ATTACHMENT|PATTERN|GAP|TIMING)###/g;
+    const parts = text.split(markerRegex);
+    const map = {};
+    for (let i = 1; i < parts.length; i += 2) {
+      map[parts[i]] = (parts[i + 1] || '').trim();
+    }
+
+    let html = '';
+    ['ATTACHMENT', 'PATTERN', 'GAP', 'TIMING'].forEach(function (key) {
+      if (!map[key]) return;
+      html += '<div class="upsell2-block"><span class="upsell2-block-label">' + labels[key] + '</span>' +
+        '<p class="upsell2-block-text">' + escapeHtml(map[key]) + '</p></div>';
+    });
+    if (!html) {
+      html = '<p class="upsell2-block-text">' + escapeHtml(text) + '</p>';
+    }
+    upsell2Result.innerHTML = html;
   }
 })();
 </script>
