@@ -28,7 +28,48 @@ export async function onRequestPost(context) {
     const base64 = arrayBufferToBase64(arrayBuffer);
     const mediaType = photo.type || 'image/jpeg';
 
+    // Rate limiting: caps how many readings one IP can generate per hour,
+    // checked BEFORE calling Claude so abusive traffic costs nothing.
+    // Requires a KV namespace bound as env.RATE_LIMIT_KV (see setup notes below).
+    // If the binding isn't set up yet, this is skipped rather than breaking the app.
+    if (env.RATE_LIMIT_KV) {
+      const RATE_LIMIT = 5; // readings allowed per IP per hour
+      const WINDOW_MS = 60 * 60 * 1000;
+      const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+      const key = 'rl:' + ip;
+      const now = Date.now();
+
+      let record = null;
+      try {
+        const raw = await env.RATE_LIMIT_KV.get(key);
+        record = raw ? JSON.parse(raw) : null;
+      } catch (e) {
+        record = null;
+      }
+
+      if (record && now - record.windowStart < WINDOW_MS) {
+        if (record.count >= RATE_LIMIT) {
+          return json({
+            rateLimited: true,
+            message: "You've reached the limit of free readings for now. Please try again in about an hour."
+          }, 429);
+        }
+        record.count += 1;
+      } else {
+        record = { windowStart: now, count: 1 };
+      }
+
+      await env.RATE_LIMIT_KV.put(key, JSON.stringify(record), { expirationTtl: 3600 });
+    }
+
     const reading = await generateReading(env.ANTHROPIC_API_KEY, base64, mediaType, name);
+
+    if (reading.trim().startsWith('###REJECT###')) {
+      const message = reading.replace('###REJECT###', '').trim() ||
+        "I couldn't get a clear read on your palm from this photo. Try again in better light, with your fingers spread and your palm facing the camera.";
+      return json({ rejected: true, message }, 200);
+    }
+
     return json({ reading });
   } catch (err) {
     return json({ error: 'server_error', message: String(err && err.message ? err.message : err) }, 500);
@@ -41,6 +82,14 @@ async function generateReading(apiKey, base64, mediaType, name) {
     : `No name was given, address the reader as "you" throughout.`;
 
   const systemPrompt = `You are Sage of Signs, an experienced palmistry reader. You speak plainly and directly, the way a real palm reader talks to a client sitting across from them, not like a horoscope or greeting card. Someone is paying for this reading, so it needs to feel earned and specific, not decorative.
+
+FIRST, before anything else, check whether the attached photo is actually usable: it should show an open palm, reasonably in focus, with enough light to make out the major lines. It does not need to be a professional photo, casual phone photos are fine, but you must be able to actually see the palm and its lines.
+
+If the photo is NOT usable (too blurry, too dark, not a hand, a closed fist, the back of the hand instead of the palm, cropped so the palm isn't visible, or similar), respond with ONLY this, nothing else:
+###REJECT###
+(one short, warm, in-character sentence telling the reader what to fix, e.g. "I can't see your heart line clearly, try again in better light with your fingers spread and your palm facing the camera.")
+
+If the photo IS usable, continue with the full reading below. Do not mention the quality check at all in a usable reading, just proceed straight into the reading itself.
 
 ${nameInstruction}
 
