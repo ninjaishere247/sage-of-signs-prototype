@@ -29,40 +29,37 @@ body {
 h1 { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-size: 1.8rem; text-align: center; margin: 0 0 12px; }
 .intro-line {
   font-family: 'Fraunces', serif; font-style: italic; font-size: 1.05rem; line-height: 1.6;
-  text-align: center; color: var(--lavender); max-width: 46ch; margin: 0 auto 30px; display: none;
+  text-align: center; color: var(--lavender); max-width: 46ch; margin: 0 auto 26px; display: none;
 }
 
-/* Progress indicator */
-.progress-wrap { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 34px; }
-.progress-label {
-  font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--lavender);
-}
+.progress-wrap { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 26px; }
+.progress-label { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--lavender); }
 .progress-dots { display: flex; gap: 6px; }
 .progress-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(237,227,208,0.18); }
 .progress-dot.filled { background: var(--gold); }
 
-/* Keepsake — now shown with the free card, not gated */
-.keepsake { display: none; justify-content: center; margin-bottom: 34px; }
+.keepsake { display: none; justify-content: center; margin-bottom: 30px; }
 .keepsake-frame {
   padding: 8px; background: var(--plum); border: 1px solid rgba(201,162,39,0.25);
-  border-radius: 6px; box-shadow: 0 12px 30px -12px rgba(0,0,0,0.5);
-  transform: rotate(-1.5deg);
+  border-radius: 6px; box-shadow: 0 12px 30px -12px rgba(0,0,0,0.5); transform: rotate(-1.5deg);
 }
-.keepsake-frame img {
-  display: block; width: 130px; height: 130px; object-fit: cover; border-radius: 3px;
-  filter: sepia(0.35) saturate(0.85) contrast(1.02);
-}
-.keepsake-caption {
-  font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em;
-  color: var(--lavender); text-align: center; margin-top: 8px; opacity: 0.75;
-}
+.keepsake-frame img { display: block; width: 130px; height: 130px; object-fit: cover; border-radius: 3px; filter: sepia(0.35) saturate(0.85) contrast(1.02); }
+.keepsake-caption { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; color: var(--lavender); text-align: center; margin-top: 8px; opacity: 0.75; }
 .share-btn {
   display: block; margin: 10px auto 0; background: transparent; border: 1px solid rgba(201,162,39,0.4);
   color: var(--gold); font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em;
   text-transform: uppercase; padding: 8px 16px; border-radius: 20px; cursor: pointer;
 }
 .share-btn:hover { background: rgba(201,162,39,0.1); }
+
+/* The hook, shown above the cards */
+.hook-card {
+  background: linear-gradient(160deg, rgba(201,162,39,0.13), rgba(36,24,50,0.5));
+  border: 1px solid rgba(201,162,39,0.4); border-radius: 8px;
+  padding: 22px 24px; margin-bottom: 24px; display: none;
+}
+.hook-label { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-bright); display: block; margin-bottom: 10px; }
+.hook-text { font-family: 'Fraunces', serif; font-style: italic; font-size: 1.12rem; line-height: 1.6; color: var(--parchment); margin: 0; }
 
 .sections { display: flex; flex-direction: column; gap: 18px; margin-bottom: 22px; }
 .section-card {
@@ -71,130 +68,111 @@ h1 { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-
   animation: reveal 0.6s ease forwards; position: relative;
 }
 .section-card:nth-child(1) { animation-delay: 0.1s; }
-.section-card:nth-child(2) { animation-delay: 0.35s; }
-.section-card:nth-child(3) { animation-delay: 0.6s; }
-.section-card:nth-child(4) { animation-delay: 0.85s; }
+.section-card:nth-child(2) { animation-delay: 0.3s; }
+.section-card:nth-child(3) { animation-delay: 0.5s; }
+.section-card:nth-child(4) { animation-delay: 0.7s; }
 @keyframes reveal { to { opacity: 1; transform: translateY(0); } }
 .section-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
 .section-glyph { width: 26px; height: 26px; flex-shrink: 0; color: var(--gold); }
-.section-label {
-  font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.16em;
-  text-transform: uppercase; color: var(--gold); opacity: 0.9;
-}
-.section-text {
-  font-family: 'Fraunces', serif; font-weight: 400; font-size: 1.05rem; line-height: 1.7;
-  color: var(--parchment); letter-spacing: 0.003em;
-}
+.section-label { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); opacity: 0.9; }
+.section-text { font-family: 'Fraunces', serif; font-weight: 400; font-size: 1.05rem; line-height: 1.7; color: var(--parchment); }
 
-/* Locked card variant */
-.section-card.locked { padding-bottom: 22px; }
 .section-card.locked .section-text {
   -webkit-mask-image: linear-gradient(to bottom, black 35%, transparent 92%);
   mask-image: linear-gradient(to bottom, black 35%, transparent 92%);
 }
 .lock-row {
   display: flex; align-items: center; gap: 8px; margin-top: 14px;
-  font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em;
-  color: var(--gold); opacity: 0.85;
+  font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; color: var(--gold); opacity: 0.85;
 }
 .lock-row svg { width: 14px; height: 14px; flex-shrink: 0; }
 
-/* Synthesis card — visually distinct */
 .synthesis-card {
   background: linear-gradient(160deg, rgba(201,162,39,0.08), rgba(36,24,50,0.4));
   border: 1px solid rgba(201,162,39,0.3); border-radius: 8px;
-  padding: 26px 26px 24px; margin-bottom: 22px;
-  opacity: 0; transform: translateY(10px); animation: reveal 0.6s ease forwards;
+  padding: 26px 26px 24px; margin-bottom: 22px; display: none;
 }
-.synthesis-label {
-  font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.16em;
-  text-transform: uppercase; color: var(--gold-bright); margin-bottom: 12px; display: block;
-}
-.synthesis-text {
-  font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-size: 1.08rem; line-height: 1.75;
-  color: var(--parchment);
-}
-.synthesis-locked .synthesis-text {
-  -webkit-mask-image: linear-gradient(to bottom, black 25%, transparent 85%);
-  mask-image: linear-gradient(to bottom, black 25%, transparent 85%);
-}
+.synthesis-label { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-bright); margin-bottom: 12px; display: block; }
+.synthesis-text { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-size: 1.08rem; line-height: 1.75; color: var(--parchment); }
 
-/* Paywall */
-.paywall {
-  margin-top: 28px; padding: 30px 26px; background: var(--plum);
-  border: 1px solid rgba(201,162,39,0.3); border-radius: 10px; text-align: center;
-}
-.paywall-headline {
-  font-family: 'Fraunces', serif; font-style: italic; font-size: 1.25rem; line-height: 1.5;
-  color: var(--parchment); margin: 0 0 18px;
-}
+.paywall { margin-top: 28px; padding: 32px 26px; background: var(--plum); border: 1px solid rgba(201,162,39,0.3); border-radius: 10px; text-align: center; display: none; }
+.paywall-headline { font-family: 'Fraunces', serif; font-style: italic; font-size: 1.3rem; line-height: 1.5; color: var(--parchment); margin: 0 0 10px; }
+.paywall-sub { font-size: 0.92rem; color: var(--lavender); line-height: 1.6; margin: 0 auto 22px; max-width: 40ch; }
 .paywall-list {
-  list-style: none; padding: 0; margin: 0 0 22px; text-align: left;
+  list-style: none; padding: 0; margin: 0 0 24px; text-align: left;
   font-family: 'Inter', sans-serif; font-size: 0.92rem; color: var(--lavender);
-  display: inline-flex; flex-direction: column; gap: 9px;
+  display: inline-flex; flex-direction: column; gap: 10px;
 }
 .paywall-list li { display: flex; gap: 10px; align-items: flex-start; }
 .paywall-list li::before { content: '✦'; color: var(--gold); flex-shrink: 0; margin-top: 1px; }
 .paywall-btn {
   display: inline-block; background: var(--gold); color: var(--void); border: none;
   font-family: 'Space Mono', monospace; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.06em;
-  text-transform: uppercase; padding: 15px 34px; border-radius: 30px; cursor: pointer;
+  text-transform: uppercase; padding: 15px 34px; border-radius: 30px; cursor: pointer; width: 100%;
 }
 .paywall-btn:hover { background: var(--gold-bright); }
-.paywall-price { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--lavender); margin-top: 12px; }
-.paywall-trust { font-size: 0.75rem; color: var(--lavender); opacity: 0.75; margin-top: 14px; }
+.paywall-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.paywall-price { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--lavender); margin-top: 14px; line-height: 1.6; }
+.paywall-trust { font-size: 0.75rem; color: var(--lavender); opacity: 0.75; margin-top: 10px; }
 
-/* Upsell 1 */
-.upsell1-wrap {
-  margin-top: 30px; padding: 30px 26px; background: linear-gradient(160deg, rgba(181,98,46,0.08), rgba(36,24,50,0.4));
-  border: 1px solid rgba(181,98,46,0.3); border-radius: 10px;
+/* Post-purchase delivery panel */
+.delivery {
+  margin-top: 24px; padding: 24px; background: rgba(0,0,0,0.22);
+  border: 1px solid rgba(201,162,39,0.25); border-radius: 8px; display: none;
 }
-.upsell1-intro { text-align: center; margin-bottom: 22px; }
-.upsell1-lede {
-  font-family: 'Fraunces', serif; font-style: italic; font-size: 1.05rem; line-height: 1.6;
-  color: var(--parchment); margin: 10px 0 0;
+.delivery-label { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 14px; }
+.delivery-row { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; font-size: 0.88rem; color: var(--parchment); }
+.delivery-row svg { width: 16px; height: 16px; color: var(--gold); flex-shrink: 0; }
+.delivery-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+.ghost-btn {
+  background: transparent; border: 1px solid rgba(201,162,39,0.45); color: var(--gold);
+  font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 10px 16px; border-radius: 20px; cursor: pointer; text-decoration: none; display: inline-block;
 }
+.ghost-btn:hover { background: rgba(201,162,39,0.12); }
+
+/* Email preview */
+.email-preview {
+  margin-top: 14px; background: #fdfbf6; color: #2a2438; border-radius: 6px; padding: 18px 20px;
+  font-family: 'Inter', sans-serif; font-size: 0.84rem; line-height: 1.6; display: none;
+}
+.email-preview-head { border-bottom: 1px solid #e5ded0; padding-bottom: 10px; margin-bottom: 12px; font-size: 0.78rem; color: #6b6280; }
+.email-preview-head strong { color: #2a2438; }
+.email-preview h4 { font-family: 'Fraunces', serif; font-size: 1.05rem; margin: 0 0 10px; }
+
+/* Upsells */
+.upsell-wrap { margin-top: 24px; padding: 30px 26px; border-radius: 10px; display: none; }
+.upsell1-wrap { background: linear-gradient(160deg, rgba(181,98,46,0.1), rgba(36,24,50,0.45)); border: 1px solid rgba(181,98,46,0.35); }
+.upsell2-wrap { background: linear-gradient(160deg, rgba(201,162,39,0.1), rgba(36,24,50,0.45)); border: 1px solid rgba(201,162,39,0.35); }
+.upsell-intro { text-align: center; margin-bottom: 20px; }
+.upsell-lede { font-family: 'Fraunces', serif; font-style: italic; font-size: 1.06rem; line-height: 1.6; color: var(--parchment); margin: 10px 0 0; }
+.upsell-bullets {
+  list-style: none; padding: 0; margin: 18px auto 20px; text-align: left; max-width: 40ch;
+  font-size: 0.88rem; color: var(--lavender); display: flex; flex-direction: column; gap: 8px;
+}
+.upsell-bullets li { display: flex; gap: 9px; }
+.upsell-bullets li::before { content: '✦'; color: var(--gold); flex-shrink: 0; }
 .topic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
 @media (max-width: 480px) { .topic-grid { grid-template-columns: 1fr; } }
 .topic-btn {
-  background: rgba(0,0,0,0.2); border: 1px solid rgba(237,227,208,0.2); color: var(--parchment);
-  font-family: 'Inter', sans-serif; font-size: 0.9rem; padding: 14px 12px; border-radius: 6px;
-  cursor: pointer; text-align: center;
+  background: rgba(0,0,0,0.22); border: 1px solid rgba(237,227,208,0.2); color: var(--parchment);
+  font-family: 'Inter', sans-serif; font-size: 0.9rem; padding: 14px 12px; border-radius: 6px; cursor: pointer; text-align: center;
 }
 .topic-btn:hover { border-color: var(--copper); }
-.topic-btn.selected { background: rgba(181,98,46,0.25); border-color: var(--copper); }
-.upsell1-passage {
-  font-family: 'Fraunces', serif; font-size: 1.05rem; line-height: 1.75; color: var(--parchment);
-  margin-bottom: 16px;
-}
-.upsell1-onething {
-  margin-top: 20px; padding: 18px 20px; background: rgba(0,0,0,0.2);
+.topic-btn.selected { background: rgba(181,98,46,0.28); border-color: var(--copper); }
+.topic-prompt { font-size: 0.82rem; color: var(--lavender); text-align: center; margin: 0 0 12px; }
+.upsell-passage { font-family: 'Fraunces', serif; font-size: 1.04rem; line-height: 1.75; color: var(--parchment); margin: 0 0 18px; }
+.upsell-block { text-align: left; margin-top: 20px; }
+.upsell-block-label { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 8px; }
+.onething {
+  margin-top: 20px; padding: 18px 20px; background: rgba(0,0,0,0.24);
   border-left: 2px solid var(--copper); border-radius: 4px;
+  font-family: 'Fraunces', serif; font-size: 1.02rem; line-height: 1.7;
 }
-.upsell1-onething-label {
-  font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--copper); display: block; margin-bottom: 8px;
-}
-.upsell1-loading { text-align: center; color: var(--lavender); font-family: 'Space Mono', monospace; font-size: 0.8rem; padding: 20px 0; }
+.onething-label { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--copper); display: block; margin-bottom: 8px; }
+.loading-note { text-align: center; color: var(--lavender); font-family: 'Space Mono', monospace; font-size: 0.8rem; padding: 20px 0; }
 
-/* Upsell 2 */
-.upsell2-wrap {
-  margin-top: 22px; padding: 30px 26px; background: linear-gradient(160deg, rgba(201,162,39,0.1), rgba(36,24,50,0.4));
-  border: 1px solid rgba(201,162,39,0.3); border-radius: 10px; text-align: center;
-}
-.upsell2-block { text-align: left; margin-top: 20px; }
-.upsell2-block-label {
-  font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--gold); display: block; margin-bottom: 8px;
-}
-.upsell2-block-text {
-  font-family: 'Fraunces', serif; font-size: 1.02rem; line-height: 1.7; color: var(--parchment); margin: 0 0 20px;
-}
-
-.again-link {
-  display: block; text-align: center; color: var(--lavender); text-decoration: none;
-  font-size: 0.9rem; margin-top: 34px;
-}
+.again-link { display: block; text-align: center; color: var(--lavender); text-decoration: none; font-size: 0.9rem; margin-top: 34px; }
 .again-link:hover { color: var(--gold); }
 .disclaimer { font-size: 0.78rem; color: var(--lavender); opacity: 0.7; text-align: center; margin-top: 40px; line-height: 1.6; }
 </style>
@@ -207,7 +185,7 @@ h1 { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-
   <p class="intro-line" id="intro-line"></p>
 
   <div class="progress-wrap" id="progress-wrap" style="display:none;">
-    <span class="progress-label">1 of 4 read</span>
+    <span class="progress-label" id="progress-label">1 of 4 read</span>
     <div class="progress-dots">
       <span class="progress-dot filled"></span>
       <span class="progress-dot"></span>
@@ -224,55 +202,94 @@ h1 { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-
     </div>
   </div>
 
-  <div class="sections" id="sections"></div>
-
-  <div class="synthesis-card synthesis-locked" id="synthesis-card" style="display:none;">
-    <span class="synthesis-label">Where this leads</span>
-    <p class="synthesis-text" id="synthesis-text"></p>
-    <div class="lock-row">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
-      Unlocks with your full reading
-    </div>
+  <div class="hook-card" id="hook-card">
+    <span class="hook-label">Before you read on</span>
+    <p class="hook-text" id="hook-text"></p>
   </div>
 
-  <div class="paywall" id="paywall" style="display:none;">
-    <p class="paywall-headline" id="paywall-headline">You've seen your heart. There's more your hand is holding.</p>
+  <div class="sections" id="sections"></div>
+
+  <div class="synthesis-card" id="synthesis-card">
+    <span class="synthesis-label">Where this leads</span>
+    <p class="synthesis-text" id="synthesis-text"></p>
+  </div>
+
+  <div class="paywall" id="paywall">
+    <p class="paywall-headline" id="paywall-headline">There is more your hand is holding.</p>
+    <p class="paywall-sub" id="paywall-sub">You have read one line of four. The rest, and what they say when read together, is waiting.</p>
     <ul class="paywall-list">
       <li>Your head, life, and fate lines, read in full</li>
-      <li>The synthesis, what your lines reveal when read together</li>
-      <li>A keepsake PDF, emailed to you</li>
-      <li>A permanent link to revisit your reading anytime</li>
+      <li>The synthesis, what your four lines say together</li>
+      <li>A keepsake PDF, yours to download and keep</li>
+      <li>A permanent link that holds everything you own</li>
     </ul>
-    <br>
     <button class="paywall-btn" id="paywall-btn" type="button">Unlock your full reading, $9</button>
-    <div class="paywall-price">A reading like this from a practitioner runs $65 to $150 and a week's wait.</div>
+    <div class="paywall-price">A reading like this from a practitioner runs $65 to $150, and a week's wait.</div>
     <div class="paywall-trust">Written fresh from your photo. Not a template.</div>
   </div>
 
-  <div class="upsell1-wrap" id="upsell1-wrap" style="display:none;">
-    <div class="upsell1-intro">
+  <div class="delivery" id="delivery">
+    <span class="delivery-label">Delivered</span>
+    <div class="delivery-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 6 9 17l-5-5"/></svg>
+      <span>Your reading is unlocked below</span>
+    </div>
+    <div class="delivery-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16v16H4z"/><path d="M4 8h16"/></svg>
+      <span id="delivery-email">Sent to your inbox</span>
+    </div>
+    <div class="delivery-actions">
+      <button class="ghost-btn" id="pdf-btn" type="button">Download PDF</button>
+      <button class="ghost-btn" id="email-toggle" type="button">Preview the email</button>
+    </div>
+    <div class="email-preview" id="email-preview">
+      <div class="email-preview-head">
+        <div><strong>From:</strong> Sage of Signs</div>
+        <div><strong>To:</strong> <span id="email-to">you</span></div>
+        <div><strong>Subject:</strong> <span id="email-subject">Your reading is ready</span></div>
+      </div>
+      <div id="email-body"></div>
+    </div>
+  </div>
+
+  <div class="upsell-wrap upsell1-wrap" id="upsell1-wrap">
+    <div class="upsell-intro">
       <span class="synthesis-label">Your Next Chapter</span>
-      <p class="upsell1-lede">Your reading named a tension. This goes further into it, and leaves you with one thing to sit with.</p>
+      <p class="upsell-lede" id="upsell1-lede">Your reading named a tension. This one goes into what it is doing to you right now.</p>
     </div>
-    <div class="topic-grid" id="topic-grid">
-      <button class="topic-btn" data-topic="relationship" type="button">A relationship</button>
-      <button class="topic-btn" data-topic="career" type="button">Work or a decision</button>
-      <button class="topic-btn" data-topic="stuck" type="button">Feeling stuck</button>
-      <button class="topic-btn" data-topic="fresh_start" type="button">A fresh start</button>
+    <div id="upsell1-offer">
+      <ul class="upsell-bullets">
+        <li>How that tension is shaping the thing you are facing now</li>
+        <li>The mechanism behind it, not just the pattern</li>
+        <li>What standing still is quietly costing you</li>
+        <li>One small thing to sit with this week</li>
+      </ul>
+      <p class="topic-prompt">What is on your mind right now?</p>
+      <div class="topic-grid" id="topic-grid">
+        <button class="topic-btn" data-topic="relationship" type="button">A relationship</button>
+        <button class="topic-btn" data-topic="career" type="button">Work or a decision</button>
+        <button class="topic-btn" data-topic="stuck" type="button">Feeling stuck</button>
+        <button class="topic-btn" data-topic="fresh_start" type="button">A fresh start</button>
+      </div>
+      <button class="paywall-btn" id="upsell1-btn" type="button" style="display:none;">Get Your Next Chapter, $9</button>
     </div>
-    <button class="paywall-btn" id="upsell1-btn" type="button" style="display:none;">Get Your Next Chapter, $9</button>
     <div id="upsell1-result" style="display:none;"></div>
   </div>
 
-  <!-- TEMPORARY PLACEMENT: in the final product this is a follow-up email a
-       few days later, not stacked on the same page as Upsell 1. Shown here
-       inline for now so it can be built and tested before email is wired. -->
-  <div class="upsell2-wrap" id="upsell2-wrap" style="display:none;">
-    <div class="upsell1-intro">
+  <div class="upsell-wrap upsell2-wrap" id="upsell2-wrap">
+    <div class="upsell-intro">
       <span class="synthesis-label" style="color: var(--gold-bright);">Your Love Blueprint</span>
-      <p class="upsell1-lede">A closer look at how you actually love, no one else's hand required.</p>
+      <p class="upsell-lede">A closer look at how you actually love. No one else's hand required.</p>
     </div>
-    <button class="paywall-btn" id="upsell2-btn" type="button">Get Your Love Blueprint, $9</button>
+    <div id="upsell2-offer">
+      <ul class="upsell-bullets">
+        <li>How you attach, and exactly what makes you withdraw</li>
+        <li>The pattern you repeat, traced through its full cycle</li>
+        <li>The gap between what draws you and what is good for you</li>
+        <li>Three things to watch for in yourself</li>
+      </ul>
+      <button class="paywall-btn" id="upsell2-btn" type="button">Get Your Love Blueprint, $9</button>
+    </div>
     <div id="upsell2-result" style="display:none;"></div>
   </div>
 
@@ -284,6 +301,8 @@ h1 { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-
 (function () {
   const reading = sessionStorage.getItem('sage_reading');
   const photo = sessionStorage.getItem('sage_photo_preview');
+  const readerName = sessionStorage.getItem('sage_name') || '';
+  const readerEmail = sessionStorage.getItem('sage_email') || '';
 
   const titleEl = document.getElementById('page-title');
   const introEl = document.getElementById('intro-line');
@@ -291,10 +310,14 @@ h1 { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-
   const keepsakeEl = document.getElementById('keepsake');
   const keepsakeImg = document.getElementById('keepsake-img');
   const progressWrap = document.getElementById('progress-wrap');
+  const progressLabel = document.getElementById('progress-label');
+  const hookCard = document.getElementById('hook-card');
+  const hookText = document.getElementById('hook-text');
   const synthesisCard = document.getElementById('synthesis-card');
   const synthesisText = document.getElementById('synthesis-text');
   const paywallEl = document.getElementById('paywall');
   const paywallHeadline = document.getElementById('paywall-headline');
+  const deliveryEl = document.getElementById('delivery');
   const shareBtn = document.getElementById('share-btn');
   const paywallBtn = document.getElementById('paywall-btn');
 
@@ -306,24 +329,27 @@ h1 { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-
   };
   const LABELS = { HEART: 'Heart Line', HEAD: 'Head Line', LIFE: 'Life Line', FATE: 'Fate Line' };
   const ORDER = ['HEART', 'HEAD', 'LIFE', 'FATE'];
-  const FREE_KEY = 'HEART'; // which card is shown open, free
+  const FREE_KEY = 'HEART';
 
   function escapeHtml(str) {
     return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
 
-  // Cuts interpretation short after the observation sentence(s), leaving a real,
-  // legible fragment rather than blurring the whole card.
+  function owned() {
+    try { return JSON.parse(sessionStorage.getItem('sage_owned') || '[]'); } catch (e) { return []; }
+  }
+  function ownsProduct(p) { return owned().indexOf(p) !== -1; }
+
   function truncateForLock(text) {
     const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
     const keep = sentences.slice(0, 2).join(' ').trim();
-    return keep.endsWith('...') ? keep : keep + ' …';
+    return keep;
   }
 
   if (!reading) {
     titleEl.textContent = 'No reading found';
     introEl.style.display = 'block';
-    introEl.textContent = "It looks like you reached this page directly. Please go back and upload a palm photo first.";
+    introEl.textContent = 'It looks like you reached this page directly. Please go back and upload a palm photo first.';
     return;
   }
 
@@ -332,21 +358,17 @@ h1 { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-
     keepsakeEl.style.display = 'flex';
   }
 
-  // Parse ###MARKER### sections, including SYNTHESIS.
-  const markerRegex = /###(HEART|HEAD|LIFE|FATE|SYNTHESIS)###/g;
+  const markerRegex = /###(HEART|HEAD|LIFE|FATE|SYNTHESIS|HOOK)###/g;
   const rawParts = reading.split(markerRegex);
   const intro = (rawParts[0] || '').trim();
   const sectionMap = {};
   for (let i = 1; i < rawParts.length; i += 2) {
     const key = rawParts[i];
-    const content = (rawParts[i + 1] || '').trim();
-    if (key && !sectionMap[key]) sectionMap[key] = content;
+    if (key && !sectionMap[key]) sectionMap[key] = (rawParts[i + 1] || '').trim();
   }
 
-  const foundAnySection = ORDER.some(k => sectionMap[k]);
-
+  const foundAnySection = ORDER.some(function (k) { return sectionMap[k]; });
   if (!foundAnySection) {
-    // Fallback: markers not found — show the raw reading in one open card.
     sectionsEl.innerHTML = '<div class="section-card"><div class="section-text">' + escapeHtml(reading) + '</div></div>';
     return;
   }
@@ -355,39 +377,92 @@ h1 { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-
     introEl.style.display = 'block';
     introEl.textContent = intro;
   }
-
   progressWrap.style.display = 'flex';
 
-  let html = '';
-  ORDER.forEach(function (key) {
-    if (!sectionMap[key]) return;
-    const isFree = key === FREE_KEY;
-    const displayText = isFree ? sectionMap[key] : truncateForLock(sectionMap[key]);
-    html += '<div class="section-card' + (isFree ? '' : ' locked') + '">' +
-      '<div class="section-head">' + GLYPHS[key] + '<span class="section-label">' + LABELS[key] + '</span></div>' +
-      '<div class="section-text">' + escapeHtml(displayText) + '</div>' +
-      (isFree ? '' :
-        '<div class="lock-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Unlocks with your full reading</div>') +
-      '</div>';
-  });
-  sectionsEl.innerHTML = html;
-
-  if (sectionMap.SYNTHESIS) {
-    synthesisCard.style.display = 'block';
-    const truncatedSynthesis = truncateForLock(sectionMap.SYNTHESIS);
-    synthesisText.textContent = truncatedSynthesis;
-
-    // Paywall headline: a short, genuine fragment of the synthesis, short enough
-    // that it teases without disclosing the actual tension. Deliberately shorter
-    // than the locked synthesis card preview above, so nothing is duplicated.
-    const words = sectionMap.SYNTHESIS.trim().split(/\s+/);
-    const fragment = words.slice(0, 9).join(' ');
-    if (fragment) {
-      paywallHeadline.textContent = fragment + '…';
-    }
+  function renderSections(unlocked) {
+    let html = '';
+    ORDER.forEach(function (key) {
+      if (!sectionMap[key]) return;
+      const open = unlocked || key === FREE_KEY;
+      const displayText = open ? sectionMap[key] : truncateForLock(sectionMap[key]);
+      html += '<div class="section-card' + (open ? '' : ' locked') + '">' +
+        '<div class="section-head">' + GLYPHS[key] + '<span class="section-label">' + LABELS[key] + '</span></div>' +
+        '<div class="section-text">' + escapeHtml(displayText) + '</div>' +
+        (open ? '' :
+          '<div class="lock-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Unlocks with your full reading</div>') +
+        '</div>';
+    });
+    sectionsEl.innerHTML = html;
   }
 
-  paywallEl.style.display = 'block';
+  function renderLockedState() {
+    renderSections(false);
+    if (sectionMap.HOOK) {
+      hookCard.style.display = 'block';
+      hookText.textContent = sectionMap.HOOK;
+      paywallHeadline.textContent = sectionMap.HOOK;
+    }
+    synthesisCard.style.display = 'none';
+    paywallEl.style.display = 'block';
+    progressLabel.textContent = '1 of 4 read';
+  }
+
+  function renderUnlockedState() {
+    renderSections(true);
+    hookCard.style.display = 'none';
+    if (sectionMap.SYNTHESIS) {
+      synthesisCard.style.display = 'block';
+      synthesisText.textContent = sectionMap.SYNTHESIS;
+    }
+    paywallEl.style.display = 'none';
+    document.querySelectorAll('.progress-dot').forEach(function (d) { d.classList.add('filled'); });
+    progressLabel.textContent = '4 of 4 read';
+
+    deliveryEl.style.display = 'block';
+    document.getElementById('delivery-email').textContent = readerEmail
+      ? 'Sent to ' + readerEmail
+      : 'Sent to your inbox';
+    document.getElementById('email-to').textContent = readerEmail || 'you';
+    buildEmailPreview();
+
+    document.getElementById('upsell1-wrap').style.display = 'block';
+    document.getElementById('upsell2-wrap').style.display = 'block';
+  }
+
+  function buildEmailPreview() {
+    const firstName = readerName || 'there';
+    const has1 = ownsProduct('upsell1');
+    const has2 = ownsProduct('upsell2');
+    let subject = 'Your reading is ready';
+    if (has2) subject = 'Your Love Blueprint has been added';
+    else if (has1) subject = 'Your Next Chapter has been added';
+    document.getElementById('email-subject').textContent = subject;
+
+    let contents = '<li>Your full palm reading, all four lines</li>';
+    if (has1) contents += '<li>Your Next Chapter</li>';
+    if (has2) contents += '<li>Your Love Blueprint</li>';
+
+    document.getElementById('email-body').innerHTML =
+      '<h4>' + escapeHtml(firstName) + ', your reading is ready.</h4>' +
+      '<p>Everything you own is attached as a single PDF, and it lives permanently at your reading link. ' +
+      'Each time you add to your reading, the document grows and the link updates.</p>' +
+      '<p style="margin:12px 0 6px;"><strong>In this document:</strong></p>' +
+      '<ul style="margin:0 0 12px; padding-left:18px;">' + contents + '</ul>' +
+      '<p style="color:#6b6280; font-size:0.8rem;">Sage of Signs is provided for entertainment purposes only.</p>';
+  }
+
+  // Initial state depends on what they own.
+  if (ownsProduct('frontend')) {
+    renderUnlockedState();
+  } else {
+    renderLockedState();
+  }
+
+  if (paywallBtn) {
+    paywallBtn.addEventListener('click', function () {
+      window.location.href = '/checkout.html?product=frontend';
+    });
+  }
 
   if (shareBtn) {
     shareBtn.addEventListener('click', function () {
@@ -398,185 +473,188 @@ h1 { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-
         navigator.share({ title: 'Sage of Signs', text: shareText }).catch(function () {});
       } else if (navigator.clipboard) {
         navigator.clipboard.writeText(shareText);
-        shareBtn.textContent = 'Copied!';
+        shareBtn.textContent = 'Copied';
         setTimeout(function () { shareBtn.textContent = 'Share this reading'; }, 1800);
       }
     });
   }
 
-  if (paywallBtn) {
-    paywallBtn.addEventListener('click', function () {
-      // TEMPORARY: Stripe isn't wired yet. This simulates a completed purchase
-      // so the rest of the product (full reading + Upsell 1) can be built and
-      // tested end to end. Replace this handler with real Stripe Checkout once
-      // the client's keys arrive; the actual unlock should then happen only
-      // after a confirmed webhook, not a client-side click.
-      unlockFullReading();
-    });
-  }
-
-  function unlockFullReading() {
-    // Reveal the full, untruncated text on every card.
-    const cards = sectionsEl.querySelectorAll('.section-card.locked');
-    cards.forEach(function (card) {
-      // Find which line this card is by its label, then swap in full text.
-      const label = card.querySelector('.section-label').textContent;
-      const key = ORDER.find(function (k) { return LABELS[k] === label; });
-      if (key && sectionMap[key]) {
-        card.classList.remove('locked');
-        card.querySelector('.section-text').textContent = sectionMap[key];
-        const lockRow = card.querySelector('.lock-row');
-        if (lockRow) lockRow.remove();
-      }
-    });
-
-    if (sectionMap.SYNTHESIS) {
-      synthesisCard.classList.remove('synthesis-locked');
-      synthesisText.textContent = sectionMap.SYNTHESIS;
-      const lockRow = synthesisCard.querySelector('.lock-row');
-      if (lockRow) lockRow.remove();
+  // PDF download, containing whatever is currently owned.
+  document.getElementById('pdf-btn').addEventListener('click', async function () {
+    const btn = this;
+    btn.disabled = true;
+    btn.textContent = 'Preparing';
+    try {
+      const res = await fetch('/api/pdf', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: readerName,
+          reading: reading,
+          upsell1: sessionStorage.getItem('sage_upsell1') || '',
+          upsell2: sessionStorage.getItem('sage_upsell2') || ''
+        })
+      });
+      if (!res.ok) throw new Error('pdf_failed');
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'sage-of-signs-reading.pdf';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      btn.textContent = 'Download PDF';
+    } catch (e) {
+      btn.textContent = 'Try again';
     }
+    btn.disabled = false;
+  });
 
-    // Update progress indicator to show all four read.
-    document.querySelectorAll('.progress-dot').forEach(function (dot) {
-      dot.classList.add('filled');
-    });
-    const progressLabel = document.querySelector('.progress-label');
-    if (progressLabel) progressLabel.textContent = '4 of 4 read';
+  document.getElementById('email-toggle').addEventListener('click', function () {
+    const p = document.getElementById('email-preview');
+    const showing = p.style.display === 'block';
+    p.style.display = showing ? 'none' : 'block';
+    this.textContent = showing ? 'Preview the email' : 'Hide the email';
+  });
 
-    paywallEl.style.display = 'none';
-    document.getElementById('upsell1-wrap').style.display = 'block';
-    document.getElementById('upsell1-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  // Upsell 1: topic selection, then generate on demand.
+  // ---- Upsell 1 -------------------------------------------------------------
   const topicGrid = document.getElementById('topic-grid');
   const upsell1Btn = document.getElementById('upsell1-btn');
   const upsell1Result = document.getElementById('upsell1-result');
-  let selectedTopic = null;
+  const upsell1Offer = document.getElementById('upsell1-offer');
+  let selectedTopic = sessionStorage.getItem('sage_topic') || null;
 
-  if (topicGrid) {
-    topicGrid.addEventListener('click', function (e) {
-      const btn = e.target.closest('.topic-btn');
-      if (!btn) return;
-      topicGrid.querySelectorAll('.topic-btn').forEach(function (b) { b.classList.remove('selected'); });
-      btn.classList.add('selected');
-      selectedTopic = btn.getAttribute('data-topic');
-      upsell1Btn.style.display = 'block';
-    });
+  if (selectedTopic) {
+    const pre = topicGrid.querySelector('[data-topic="' + selectedTopic + '"]');
+    if (pre) pre.classList.add('selected');
+    upsell1Btn.style.display = 'block';
   }
 
-  if (upsell1Btn) {
-    upsell1Btn.addEventListener('click', async function () {
-      if (!selectedTopic) return;
-      upsell1Btn.disabled = true;
-      upsell1Btn.textContent = 'Writing your next chapter…';
-      upsell1Result.style.display = 'block';
-      upsell1Result.innerHTML = '<div class="upsell1-loading">This can take a few seconds…</div>';
+  topicGrid.addEventListener('click', function (e) {
+    const btn = e.target.closest('.topic-btn');
+    if (!btn) return;
+    topicGrid.querySelectorAll('.topic-btn').forEach(function (b) { b.classList.remove('selected'); });
+    btn.classList.add('selected');
+    selectedTopic = btn.getAttribute('data-topic');
+    sessionStorage.setItem('sage_topic', selectedTopic);
+    upsell1Btn.style.display = 'block';
+  });
 
-      try {
-        const storedName = sessionStorage.getItem('sage_name') || '';
-        const res = await fetch('/api/upsell1', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ readingText: reading, topic: selectedTopic, name: storedName })
-        });
-        const data = await res.json();
-        if (!res.ok || !data.upsell) throw new Error(data && data.message ? data.message : 'upsell_failed');
+  upsell1Btn.addEventListener('click', function () {
+    if (!selectedTopic) return;
+    window.location.href = '/checkout.html?product=upsell1';
+  });
 
-        renderUpsell1(data.upsell);
-        upsell1Btn.style.display = 'none';
-        topicGrid.style.display = 'none';
-
-        // TEMPORARY: reveal Upsell 2 inline right after Upsell 1 completes.
-        // In the final product this becomes a follow-up email instead.
-        const upsell2Wrap = document.getElementById('upsell2-wrap');
-        if (upsell2Wrap) upsell2Wrap.style.display = 'block';
-      } catch (err) {
-        upsell1Result.innerHTML = '<div class="upsell1-loading">Something went wrong. Please try again.</div>';
-        upsell1Btn.disabled = false;
-        upsell1Btn.textContent = 'Get Your Next Chapter, $9';
-      }
-    });
+  async function generateUpsell1() {
+    upsell1Offer.style.display = 'none';
+    upsell1Result.style.display = 'block';
+    upsell1Result.innerHTML = '<div class="loading-note">Writing your next chapter</div>';
+    try {
+      const res = await fetch('/api/upsell1', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ readingText: reading, topic: selectedTopic || 'stuck', name: readerName })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.upsell) throw new Error('failed');
+      sessionStorage.setItem('sage_upsell1', data.upsell);
+      renderUpsell1(data.upsell);
+      buildEmailPreview();
+    } catch (e) {
+      upsell1Result.innerHTML = '<div class="loading-note">Something went wrong. Please refresh and try again.</div>';
+    }
   }
 
   function renderUpsell1(text) {
-    const markerRegex = /###(OPENING|DEEPER|ONETHING)###/g;
-    const parts = text.split(markerRegex);
+    const parts = text.split(/###(OPENING|DEEPER|COST|ONETHING)###/g);
     const map = {};
-    for (let i = 1; i < parts.length; i += 2) {
-      map[parts[i]] = (parts[i + 1] || '').trim();
-    }
+    for (let i = 1; i < parts.length; i += 2) map[parts[i]] = (parts[i + 1] || '').trim();
 
     let html = '';
-    if (map.OPENING) html += '<p class="upsell1-passage">' + escapeHtml(map.OPENING) + '</p>';
-    if (map.DEEPER) html += '<p class="upsell1-passage">' + escapeHtml(map.DEEPER) + '</p>';
+    if (map.OPENING) html += '<p class="upsell-passage">' + escapeHtml(map.OPENING) + '</p>';
+    if (map.DEEPER) html += '<p class="upsell-passage">' + escapeHtml(map.DEEPER) + '</p>';
+    if (map.COST) {
+      html += '<div class="upsell-block"><span class="upsell-block-label">What this costs</span>' +
+        '<p class="upsell-passage">' + escapeHtml(map.COST) + '</p></div>';
+    }
     if (map.ONETHING) {
-      html += '<div class="upsell1-onething"><span class="upsell1-onething-label">One thing</span>' +
-        escapeHtml(map.ONETHING) + '</div>';
+      html += '<div class="onething"><span class="onething-label">One thing</span>' + escapeHtml(map.ONETHING) + '</div>';
     }
-    if (!map.OPENING && !map.DEEPER && !map.ONETHING) {
-      // Fallback if markers weren't found for any reason.
-      html = '<p class="upsell1-passage">' + escapeHtml(text) + '</p>';
-    }
+    if (!html) html = '<p class="upsell-passage">' + escapeHtml(text) + '</p>';
     upsell1Result.innerHTML = html;
+    upsell1Result.style.display = 'block';
   }
 
-  // Upsell 2: self-contained, one button, no topic selection needed.
+  // ---- Upsell 2 -------------------------------------------------------------
   const upsell2Btn = document.getElementById('upsell2-btn');
   const upsell2Result = document.getElementById('upsell2-result');
+  const upsell2Offer = document.getElementById('upsell2-offer');
 
-  if (upsell2Btn) {
-    upsell2Btn.addEventListener('click', async function () {
-      upsell2Btn.disabled = true;
-      upsell2Btn.textContent = 'Writing your blueprint…';
-      upsell2Result.style.display = 'block';
-      upsell2Result.innerHTML = '<div class="upsell1-loading">This can take a few seconds…</div>';
+  upsell2Btn.addEventListener('click', function () {
+    window.location.href = '/checkout.html?product=upsell2';
+  });
 
-      try {
-        const storedName = sessionStorage.getItem('sage_name') || '';
-        const res = await fetch('/api/upsell2', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ readingText: reading, name: storedName })
-        });
-        const data = await res.json();
-        if (!res.ok || !data.upsell) throw new Error(data && data.message ? data.message : 'upsell_failed');
-
-        renderUpsell2(data.upsell);
-        upsell2Btn.style.display = 'none';
-      } catch (err) {
-        upsell2Result.innerHTML = '<div class="upsell1-loading">Something went wrong. Please try again.</div>';
-        upsell2Btn.disabled = false;
-        upsell2Btn.textContent = 'Get Your Love Blueprint, $9';
-      }
-    });
+  async function generateUpsell2() {
+    upsell2Offer.style.display = 'none';
+    upsell2Result.style.display = 'block';
+    upsell2Result.innerHTML = '<div class="loading-note">Writing your blueprint</div>';
+    try {
+      const res = await fetch('/api/upsell2', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ readingText: reading, name: readerName })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.upsell) throw new Error('failed');
+      sessionStorage.setItem('sage_upsell2', data.upsell);
+      renderUpsell2(data.upsell);
+      buildEmailPreview();
+    } catch (e) {
+      upsell2Result.innerHTML = '<div class="loading-note">Something went wrong. Please refresh and try again.</div>';
+    }
   }
 
   function renderUpsell2(text) {
     const labels = {
-      ATTACHMENT: 'How You Attach',
-      PATTERN: 'Your Pattern',
-      GAP: 'The Gap',
-      TIMING: 'Timing'
+      ATTACHMENT: 'How you attach',
+      PATTERN: 'Your pattern',
+      GAP: 'The gap',
+      TIMING: 'Timing',
+      WATCH: 'What to watch for'
     };
-    const markerRegex = /###(ATTACHMENT|PATTERN|GAP|TIMING)###/g;
-    const parts = text.split(markerRegex);
+    const parts = text.split(/###(ATTACHMENT|PATTERN|GAP|TIMING|WATCH)###/g);
     const map = {};
-    for (let i = 1; i < parts.length; i += 2) {
-      map[parts[i]] = (parts[i + 1] || '').trim();
-    }
+    for (let i = 1; i < parts.length; i += 2) map[parts[i]] = (parts[i + 1] || '').trim();
 
     let html = '';
-    ['ATTACHMENT', 'PATTERN', 'GAP', 'TIMING'].forEach(function (key) {
-      if (!map[key]) return;
-      html += '<div class="upsell2-block"><span class="upsell2-block-label">' + labels[key] + '</span>' +
-        '<p class="upsell2-block-text">' + escapeHtml(map[key]) + '</p></div>';
+    ['ATTACHMENT', 'PATTERN', 'GAP', 'TIMING', 'WATCH'].forEach(function (k) {
+      if (!map[k]) return;
+      html += '<div class="upsell-block"><span class="upsell-block-label">' + labels[k] + '</span>' +
+        '<p class="upsell-passage">' + escapeHtml(map[k]) + '</p></div>';
     });
-    if (!html) {
-      html = '<p class="upsell2-block-text">' + escapeHtml(text) + '</p>';
-    }
+    if (!html) html = '<p class="upsell-passage">' + escapeHtml(text) + '</p>';
     upsell2Result.innerHTML = html;
+    upsell2Result.style.display = 'block';
+  }
+
+  // Restore already-generated upsells, or generate a newly purchased one.
+  const purchased = new URLSearchParams(window.location.search).get('purchased');
+
+  const stored1 = sessionStorage.getItem('sage_upsell1');
+  const stored2 = sessionStorage.getItem('sage_upsell2');
+  if (stored1) { upsell1Offer.style.display = 'none'; renderUpsell1(stored1); }
+  if (stored2) { upsell2Offer.style.display = 'none'; renderUpsell2(stored2); }
+
+  if (purchased === 'upsell1' && !stored1) generateUpsell1();
+  if (purchased === 'upsell2' && !stored2) generateUpsell2();
+
+  if (purchased) {
+    setTimeout(function () {
+      const target = purchased === 'frontend' ? deliveryEl : document.getElementById(purchased + '-wrap');
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 300);
   }
 })();
 </script>
