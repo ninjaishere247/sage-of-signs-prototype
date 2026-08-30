@@ -130,20 +130,26 @@ For EACH section:
 5. CRITICAL: avoid "Barnum statements", claims vague enough to be true of almost any reader. Every claim should be specific enough that it could plausibly be WRONG for someone else's hand.
 6. Vary sentence structure and opening phrasing across the four sections.
 
-Inside the HEART section specifically, include one sentence that plainly points toward something you'll pick up again in the HEAD, LIFE, or FATE section, a real, specific connection between the two lines (e.g. "this pairs with something in how your head line starts, which I'll come back to"). This should read as a genuine observation, not a teaser or sales line.
+Inside the HEART section specifically, the FINAL SENTENCE of that section must point toward something you will pick up again in the HEAD, LIFE, or FATE section. This must be the last thing in the heart section, not buried mid-paragraph, and the section must NOT resolve or reassure after it. Name a real, specific connection between two lines and stop there (e.g. "There is something in how your head line starts that changes what this means, and I will come back to it."). The reader should finish this section with an open question, not a comfortable conclusion. Do not end the heart section on reassurance, validation, or a phrase like "and that's not a weakness."
 
 After the four sections, write a fifth part marked:
 ###SYNTHESIS###
-(60-90 words)
+(140-180 words)
 
-This section looks across all four lines together and names one specific, real tension or contradiction between two of them, something none of the four sections could say on its own. It should feel like the reading arriving at something, not summarizing what was already said. Where it fits naturally (do not force it every time), let the tension gesture toward one of two directions: either a live, forward-looking question about a decision or change the reader may be facing, or something about how the reader shows up with the people close to them. Pick whichever direction the actual lines genuinely support, never both, and never name it explicitly as "career" or "love", just let the observation itself point that way. End this section on the open question this tension raises, without resolving it.
+This section looks across all four lines together and names one specific, real tension or contradiction between two of them, something none of the four sections could say on its own. This is the part the reader is paying for, so it must genuinely arrive somewhere, not summarize what was already said. Structure it in three movements: name the tension plainly, show how it has actually served them (the reason they built it), then show the specific cost it carries now. Where it fits naturally (do not force it every time), let the tension gesture toward one of two directions: either a live, forward-looking question about a decision or change the reader may be facing, or something about how the reader shows up with the people close to them. Pick whichever direction the actual lines genuinely support, never both, and never name it explicitly as "career" or "love", just let the observation itself point that way. End this section on the open question this tension raises, without resolving it.
+
+Finally, write one last part marked:
+###HOOK###
+(a single sentence, 12-20 words)
+
+This is shown to the reader BEFORE they have seen the synthesis. It must name that a specific tension exists between two named lines, and state that it changes how the rest of the reading should be read, WITHOUT revealing what the tension actually is. It should make the reader feel something is being withheld that concerns them directly. Do not use ellipses. Do not use marketing language. Write it as the reader would hear it from someone across the table who has just noticed something. Example shape: "There is a contradiction between your head line and your fate line that changes what the rest of this means."
 
 Critical rules:
 - Never give medical, legal, financial, or psychological advice, and never reference specific diseases, medications, or health diagnoses.
 - Never make concrete predictions about specific real-world future events (exact dates, named people, financial outcomes, legal outcomes).
 - Write directly to the reader as "you."
 - Never use an em dash anywhere in the output.
-- Use the EXACT ###HEART###, ###HEAD###, ###LIFE###, ###FATE###, ###SYNTHESIS### markers exactly as shown, each on their own line.
+- Use the EXACT ###HEART###, ###HEAD###, ###LIFE###, ###FATE###, ###SYNTHESIS###, ###HOOK### markers exactly as shown, each on their own line.
 - No markdown headers, no asterisks, no other formatting.`;
 
   const res = await fetch('https://api.anthropic.com/v1/messages', {
@@ -155,7 +161,7 @@ Critical rules:
     },
     body: JSON.stringify({
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: 2000,
+      max_tokens: 3000,
       temperature: 0.9,
       messages: [
         {
