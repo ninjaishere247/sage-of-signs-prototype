@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Checkout, Sage of Signs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+--void: #12142B; --plum: #241832; --parchment: #EDE3D0;
+--gold: #C9A227; --gold-bright: #E0BC4A; --copper: #B5622E; --lavender: #8C86A3;
+}
+* { box-sizing: border-box; }
+body {
+margin: 0; min-height: 100vh; background: var(--void);
+color: var(--parchment); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased;
+display: flex; align-items: center; justify-content: center; padding: 30px 20px;
+}
+.demo-banner {
+position: fixed; top: 0; left: 0; right: 0; background: var(--copper); color: #fff;
+font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em;
+text-align: center; padding: 8px; text-transform: uppercase; z-index: 10;
+}
+.checkout { width: 100%; max-width: 420px; margin-top: 30px; }
+.wordmark {
+font-family: 'Fraunces', serif; font-size: 0.95rem; letter-spacing: 0.14em;
+text-transform: uppercase; text-align: center; margin-bottom: 26px;
+}
+.wordmark span { color: var(--gold); }
+.summary {
+background: var(--plum); border: 1px solid rgba(201,162,39,0.2); border-radius: 8px;
+padding: 22px; margin-bottom: 20px;
+}
+.summary-item { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.summary-name { font-family: 'Fraunces', serif; font-size: 1.15rem; }
+.summary-desc { font-size: 0.85rem; color: var(--lavender); margin-top: 6px; line-height: 1.5; }
+.summary-price { font-family: 'Space Mono', monospace; font-size: 1.15rem; color: var(--gold); white-space: nowrap; }
+.summary-divider { height: 1px; background: rgba(237,227,208,0.12); margin: 18px 0; }
+.summary-total { display: flex; justify-content: space-between; font-weight: 600; }
+.card-form {
+background: var(--plum); border: 1px solid rgba(201,162,39,0.2); border-radius: 8px; padding: 22px;
+}
+label {
+display: block; font-family: 'Space Mono', monospace; font-size: 0.68rem;
+letter-spacing: 0.12em; text-transform: uppercase; color: var(--lavender); margin-bottom: 7px;
+}
+input {
+width: 100%; background: rgba(0,0,0,0.25); border: 1px solid rgba(237,227,208,0.18);
+color: var(--parchment); padding: 12px 14px; border-radius: 4px;
+font-family: 'Inter', sans-serif; font-size: 0.95rem; margin-bottom: 16px;
+}
+input:focus { outline: none; border-color: var(--gold); }
+.row { display: flex; gap: 12px; }
+.row > div { flex: 1; }
+.pay-btn {
+width: 100%; background: var(--gold); color: var(--void); border: none;
+font-family: 'Space Mono', monospace; font-weight: 700; font-size: 0.9rem;
+letter-spacing: 0.06em; text-transform: uppercase; padding: 15px; border-radius: 4px; cursor: pointer;
+}
+.pay-btn:hover { background: var(--gold-bright); }
+.pay-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.secure-note {
+text-align: center; font-size: 0.75rem; color: var(--lavender); opacity: 0.7; margin-top: 16px; line-height: 1.5;
+}
+.back-link {
+display: block; text-align: center; color: var(--lavender); text-decoration: none;
+font-size: 0.85rem; margin-top: 20px;
+}
+.back-link:hover { color: var(--gold); }
+.processing { text-align: center; padding: 40px 0; }
+.spinner {
+width: 30px; height: 30px; border: 2px solid rgba(201,162,39,0.25);
+border-top-color: var(--gold); border-radius: 50%; margin: 0 auto 18px;
+animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.success-mark {
+width: 54px; height: 54px; border-radius: 50%; border: 2px solid var(--gold);
+display: flex; align-items: center; justify-content: center; margin: 0 auto 18px;
+color: var(--gold); font-size: 1.6rem;
+}
+</style>
+</head>
+<body>
+<div class="demo-banner">Demo checkout, no payment is processed</div>
+
+<div class="checkout">
+<div class="wordmark">Sage <span>of</span> Signs</div>
+
+<div id="checkout-body">
+<div class="summary">
+<div class="summary-item">
+<div>
+<div class="summary-name" id="item-name">Your Full Reading</div>
+<div class="summary-desc" id="item-desc">All four lines, read in full, plus the synthesis.</div>
+</div>
+<div class="summary-price" id="item-price">$9.00</div>
+</div>
+<div class="summary-divider"></div>
+<div class="summary-total">
+<span>Total</span>
+<span id="total-price">$9.00</span>
+</div>
+</div>
+
+<div class="card-form">
+<label for="cardnum">Card number</label>
+<input type="text" id="cardnum" placeholder="4242 4242 4242 4242" autocomplete="off" />
+<div class="row">
+<div>
+<label for="exp">Expiry</label>
+<input type="text" id="exp" placeholder="12 / 28" autocomplete="off" />
+</div>
+<div>
+<label for="cvc">CVC</label>
+<input type="text" id="cvc" placeholder="123" autocomplete="off" />
+</div>
+</div>
+<label for="cardname">Name on card</label>
+<input type="text" id="cardname" placeholder="Full name" autocomplete="off" />
+<button class="pay-btn" id="pay-btn" type="button">Pay $9.00</button>
+<p class="secure-note">This is a demonstration. No card is charged and no details are stored.</p>
+</div>
+
+<a href="/result.html" class="back-link">&larr; Back to your reading</a>
+</div>
+</div>
+
+<script>
+(function () {
+const params = new URLSearchParams(window.location.search);
+const product = params.get('product') || 'frontend';
+
+const PRODUCTS = {
+frontend: {
+name: 'Your Full Reading',
+desc: 'All four lines read in full, the synthesis, a keepsake PDF and a permanent link.',
+price: '$9.00'
+},
+upsell1: {
+name: 'Your Next Chapter',
+desc: 'A forward-looking reading on what you are facing now, and what standing still is costing you.',
+price: '$9.00'
+},
+upsell2: {
+name: 'Your Love Blueprint',
+desc: 'How you attach, the pattern you repeat, and the gap between what draws you and what is good for you.',
+price: '$9.00'
+}
+};
+
+const p = PRODUCTS[product] || PRODUCTS.frontend;
+document.getElementById('item-name').textContent = p.name;
+document.getElementById('item-desc').textContent = p.desc;
+document.getElementById('item-price').textContent = p.price;
+document.getElementById('total-price').textContent = p.price;
+document.getElementById('pay-btn').textContent = 'Pay ' + p.price;
+
+document.getElementById('pay-btn').addEventListener('click', function () {
+const body = document.getElementById('checkout-body');
+body.innerHTML = '<div class="processing"><div class="spinner"></div>' +
+'<p style="color: var(--lavender); font-family: \'Space Mono\', monospace; font-size: 0.8rem;">Processing payment</p></div>';
+
+setTimeout(function () {
+body.innerHTML = '<div class="processing"><div class="success-mark">&#10003;</div>' +
+'<p style="font-family: \'Fraunces\', serif; font-style: italic; font-size: 1.2rem; margin: 0 0 8px;">Payment complete</p>' +
+'<p style="color: var(--lavender); font-size: 0.85rem;">Taking you back to your reading</p></div>';
+
+// Record ownership so result.html knows what to unlock.
+// DEMO ONLY: in production this must be set server-side from a verified
+// Stripe webhook, never from the browser.
+let owned = [];
+try { owned = JSON.parse(sessionStorage.getItem('sage_owned') || '[]'); } catch (e) { owned = []; }
+if (owned.indexOf(product) === -1) owned.push(product);
+sessionStorage.setItem('sage_owned', JSON.stringify(owned));
+
+setTimeout(function () {
+window.location.href = '/result.html?purchased=' + product;
+}, 1400);
+}, 1900);
+});
+})();
+</script>
+</body>
+</html>
